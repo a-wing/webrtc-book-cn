@@ -9,4 +9,12 @@ https://www.oreilly.com/library/view/real-time-communication-with/9781449371869/
 
 作者通过实例学习的方法非常适合那些希望理解实时通信的 web 程序员，以及不熟悉 HTML5 和基于 javascript 的客户端-服务器 web 编程的电信架构师。
 
+## 术语表
+
+翻译术语的时候请参考这个对照表：
+
+| 术语 | 备选翻译 |
+| --- | --- |
+| peer-to-peer | 点对点 |
+| webcams | 网络摄像头 |
 
