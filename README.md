@@ -18,4 +18,6 @@ https://www.oreilly.com/library/view/real-time-communication-with/9781449371869/
 | peer-to-peer | 点对点 |
 | webcams | 网络摄像头 |
 | signaling | 信令 |
+| constraints | 约束 |
+| track | 轨道 |
 
