@@ -20,4 +20,7 @@ https://www.oreilly.com/library/view/real-time-communication-with/9781449371869/
 | signaling | 信令 |
 | constraints | 约束 |
 | track | 轨道 |
+| candidate | 候选人 |
+| caller | 主叫方 |
+| callee | 被叫方 |
 
