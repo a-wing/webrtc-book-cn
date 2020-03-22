@@ -23,4 +23,5 @@ https://www.oreilly.com/library/view/real-time-communication-with/9781449371869/
 | candidate | 候选人 |
 | caller | 主叫方 |
 | callee | 被叫方 |
+| channel| 通道   |
 
