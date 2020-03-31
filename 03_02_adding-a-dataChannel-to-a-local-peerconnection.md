@@ -37,7 +37,7 @@
 像往常一样，此应用程序的核心行为是在嵌入式 JavaScript 文件 `dataChannel.js` 中实现的，其布局如下：
 
 
-[由于这段代码太长，单独放到一个文件里了](dataChannel.js)
+[由于这段代码太长，单独放到一个文件里了](js/dataChannel.js)
 
 
 
