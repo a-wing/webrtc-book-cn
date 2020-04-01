@@ -44,7 +44,7 @@ W3C Media Capture and Streams 文档定义了一组 JavaScript API，这些API�
 
 `MediaStream` 接口用于表示媒体数据流。 流可以是输入或输出，也可以是本地或远程（例如，本地网络摄像头或远程连接）。 必须注意，单个 `MediaStream` 可以包含零个或多个轨道。 每个轨道都有一个对应的 `MediaStreamTrack` 对象，该对象代表用户代理中的特定媒体源。 `MediaStream` 中的所有轨道在渲染时进行同步。`MediaStreamTrack` 表示包含一个或多个通道的内容，其中，通道之间具有定义的已知的关系。 通道是此 API 规范中考虑的最小单位。 图2-1显示了由单个视频轨道和两个不同的音频（左声道和右声道）轨道组成的 `MediaStream`
 
-![图2-1](images/rcwr_0201.png)
+![图2-1](./images/rcwr_0201.png)
 
 图2-1 由一个视频轨道和两个音频轨道组成的 `MediaStream`
 
@@ -137,11 +137,11 @@ navigator.getUserMedia(constraints, successCallback, errorCallback);
 
 以下屏幕截图显示了将页面加载到Chrome（图2-2）或Firefox（图2-3）时的外观。
 
-![图2-2](images/rcwr_0202.png)
+![图2-2](./images/rcwr_0202.png)
 
 图2-2 在 Chrome 中打开我们的第一个示例
 
-![图2-3](images/rcwr_0203.png)
+![图2-3](./images/rcwr_0203.png)
 
 图2-3 在 Firefox 中打开我们的第一个示例
 
@@ -166,7 +166,7 @@ navigator.getUserMedia(constraints, successCallback, errorCallback);
 * `constraints` 对象（请参阅第19页的“媒体约束”），用于指定对只收集本地视频感兴趣的穿戴者（`constraints = {audio: false, video: true}`）
 * `success callback` 如果调用，将传递给 `MediaStream`。在我们的例子中，首先将这样的 `MediaStream` 提供给控制台以供用户检查（`window.stream = stream;`）然后，将其附加到 `HTML5` 页面的 `<video>` 元素上并最终显示。 参考控制台对返回对象的检查，图 2-6 显示了在 Chrome 开发人员工具窗口中此类活动输出的快照。 每个 `MediaStream` 都有一个标签，并包含一个或多个表示音频或视频通道的 `MediaStreamTracks`。
 
-![图2-6](images/rcwr_0206.png)
+![图2-6](./images/rcwr_0206.png)
 
 图2-6 在 Chrome 的控制台中检查 `MediaStream`
 

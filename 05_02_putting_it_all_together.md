@@ -21,7 +21,7 @@
 
 与该特定阶段关联的事件顺序如 图5-13 所示。
 
-![图5-13](images/rcwr_0513.png)
+![图5-13](./images/rcwr_0513.png)
 
 图5-13 服务器引导的 ICE 候选人交换
 
@@ -40,7 +40,7 @@ function handleIceCandidate(event) {
 
 像往常一样，服务器只是充当两个协商方之间的中介者，如 图5-14 中的控制台快照所示，它显示了服务器如何中继发起方发送的 SDP 描述和中继方检索到的 ICE 候选地址。 两个相互作用的同伴。
 
-![图5-14](images/rcwr_0514.png)
+![图5-14](./images/rcwr_0514.png)
 
 图5-14 服务器引导的协商日志
 
@@ -94,7 +94,7 @@ Trickle ICE机制涉及以下步骤：
 
 既然我们已经完成了 ICE 候选人交换，那么让我们重新思考一下。 我们当时（第115页上的“ Joiner 管理发起者的 Offer ”）是 Joiner 通过创建自己的 `PeerConnection` 对象来处理发起者的 Offer 的时候。 如 图5-15 所示，完成此操作后，Joiner 首先将接收到的 SDP 与新实例化的 `PeerConnection` 相关联，然后立即调用 `doAnswer()` JavaScript 函数。
 
-![图5-15](images/rcwr_0515.png)
+![图5-15](./images/rcwr_0515.png)
 
 图5-15 Joiner’s Answer to Initiator’s Offer
 
@@ -160,7 +160,7 @@ socket.on('message', function (message) {
 
 我们终于准备好了！ 两个对等方已成功交换会话描述和网络可达性信息。 借助信令服务器的中介，已经正确设置和配置了两个 `PeerConnection` 对象。 如 图5-16 所示，双向多媒体通信通道现在可用作两个浏览器之间的直接传输工具。 现在服务器已完成其任务，并且此后将被两个通信对等方完全绕开。
 
-![图5-16](images/rcwr_0516.png)
+![图5-16](./images/rcwr_0516.png)
 
 图5-16 点对点建立后进行通讯
 
@@ -289,35 +289,35 @@ function gotReceiveChannel(event) {
 
 在最后一部分中，我们将提供有关 Google Chrome 提供的特定于 WebRTC 的调试工具的信息。 确实，当您使用支持 WebRTC 的网络应用程序时，可以通过打开一个新标签页并在该标签页的位置栏中输入 `chrome://webrtc-internals/` 来监视其状态。 对于我们的示例应用程序，图5-23 给出了 `webrtc-internals` 选项卡的快照。
 
-![图5-23](images/rcwr_0523.png)
+![图5-23](./images/rcwr_0523.png)
 
 图5-23 活动的 PeerConnections
 
 如图所示，日志记录页面报告有关活动 `PeerConnection` 对象的信息。 在本例中，由于我们在同一台计算机上同时运行 Initiator 和 Joiner ，因此我们看到了两个活动的 `PeerConnection` 实例，分别与 Initiator （`PeerConnection` 71221-1）和 Joiner （`PeerConnection` 71229-1）关联。 通过单击报告的标识符之一，将显示有关相关 `PeerConnection` 的详细信息。 例如，图5-24 和 图5-25 分别以 SDP 对象的形式显示了发起者的 Offer 和相应的 Joiner 的 Answer 。 在同一图中，您还可以看到浏览器在处理呼叫时生成的所有事件的列表。
 
-![图5-24](images/rcwr_0524.png)
+![图5-24](./images/rcwr_0524.png)
 
 图5-24 SDP Offer
 
-![图5-25](images/rcwr_0525.png)
+![图5-25](./images/rcwr_0525.png)
 
 图5-25 SDP Answer
 
 Chrome 也非常擅长报告点对点交换所涉及的所有媒体的渠道统计信息。 例如，您可以在 图5-26 中看到针对音频，视频和数据通道报告了通道信息（通道创建时间戳，处理通道的浏览器组件，用于安全信息交换的本地和远程通道证书）。
 
-![图5-26](images/rcwr_0526.png)
+![图5-26](./images/rcwr_0526.png)
 
 图5-26 Channel 统计 文字格式
 
 相反， 图5-27 以图形格式报告有关网络相关的详细信息（估计可用带宽，每秒发送的数据包，平均往返时间等）以及与编码相关的详细信息（目标编码比特率，实际编码比特） 速率等）有关媒体（即音频和视频）流的信息。
 
-![图5-27](images/rcwr_0527.png)
+![图5-27](./images/rcwr_0527.png)
 
 图5-27 Channel 统计 图形格式
 
 最后，图5-28 说明了浏览器实际上是如何负责跟踪 ICE 协议机器状态更改以及为上层应用程序生成相关事件的。
 
-![图5-28](images/rcwr_0528.png)
+![图5-28](./images/rcwr_0528.png)
 
 图5-28 信令状态机与 ICE 候选事件
 

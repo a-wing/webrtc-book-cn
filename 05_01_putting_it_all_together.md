@@ -11,15 +11,15 @@
 
 图5-1、5-2 和 5-3 提供了与完整的 WebRTC 呼叫流程相关联的全景图，该流程涉及一个信道发起方，一个信道连接器以及在信道建立时在它们之间中继消息的信令服务器。
 
-![图5-1](images/rcwr_0501.png)
+![图5-1](./images/rcwr_0501.png)
 
 图5-1 WebRTC 调用流程：序列图，第 1 部分
 
-![图5-2](images/rcwr_0502.png)
+![图5-2](./images/rcwr_0502.png)
 
 图5-2 WebRTC 调用流程：序列图，第 2 部分
 
-![图5-3](images/rcwr_0503.png)
+![图5-3](./images/rcwr_0503.png)
 
 图5-3 WebRTC 调用流程：序列图，第 3 部分
 
@@ -167,7 +167,7 @@ io.sockets.on('connection', function (socket) {
 
 图5-4 显示了启动上一节中描述的示例 WebRTC 应用程序时，发起方采取的动作序列。
 
-![图5-4](images/rcwr_0504.png)
+![图5-4](./images/rcwr_0504.png)
 
 图5-4 发起者加入频道
 
@@ -187,7 +187,7 @@ if (room !== '') {
 }
 ```
 
-![图5-5](images/rcwr_0505.png)
+![图5-5](./images/rcwr_0505.png)
 
 图5-5 发起者在 Chrome 浏览器中加入
 
@@ -210,7 +210,7 @@ socket.on('create or join', function (room) {
 
 图5-6 显示了此阶段的服务器控制台。
 
-![图5-6](images/rcwr_0506.png)
+![图5-6](./images/rcwr_0506.png)
 
 图5-6 信令服务器创建信令通道
 
@@ -229,7 +229,7 @@ socket.on('created', function (room) {
 
 图5-7 显示了在获得用户同意之前浏览器的窗口。
 
-![图5-7](images/rcwr_0507.png)
+![图5-7](./images/rcwr_0507.png)
 
 图5-7 发起人征求用户同意
 
@@ -308,7 +308,7 @@ socket.on('join', function (room){
 
 最后，以下 JavaScript 说明了客户端如何意识到自己在扮演 Joiner 的角色，因为它返回了对 create 或 join 请求的联接响应：
 
-![图5-9](images/rcwr_0509.png)
+![图5-9](./images/rcwr_0509.png)
 
 图5-9 加入者加入频道
 
@@ -321,7 +321,7 @@ socket.on('joined', function (room) {
 });
 ```
 
-![图5-10](images/rcwr_0510.png)
+![图5-10](./images/rcwr_0510.png)
 
 图5-10 信令服务器管理 Joiner 的请求
 
@@ -387,7 +387,7 @@ function createPeerConnection() {
 }
 ```
 
-![图5-11](images/rcwr_0511.png)
+![图5-11](./images/rcwr_0511.png)
 
 图5-11 发起方开始协商
 
@@ -437,7 +437,7 @@ socket.on('message', function (message) {
   ...
 ```
 
-![图5-12](images/rcwr_0512.png)
+![图5-12](./images/rcwr_0512.png)
 
 图5-12 参加发起人 offer 后，Joiner 的操作
 

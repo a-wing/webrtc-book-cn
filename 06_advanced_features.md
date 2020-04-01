@@ -38,7 +38,7 @@ W3C WebRTC 工作组实际上正在研究基于 Web 的身份提供程序（IdP�
 
 在 Offer/Answer 交换阶段中扮演消费者角色的浏览器（例如，具有 `RTCPeerConnection` 的浏览器被调用 `setRemoteDescription()` 的浏览器）充当依赖方（RP），并通过直接联系 IdP 的 IdP 来验证断言 发送 Offer 的浏览器（图6-1）。 使用 Chrome 浏览器时，这使用户可以显示受信任的图标，指示正在从受信任的联系人来的呼叫。
 
-![图6-1](images/rcwr_0601.png)
+![图6-1](./images/rcwr_0601.png)
 
 图6-1 具有基于 IdP 身份的 WebRTC 呼叫
 

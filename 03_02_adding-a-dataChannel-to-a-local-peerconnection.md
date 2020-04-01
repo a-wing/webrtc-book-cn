@@ -29,7 +29,7 @@
 该页面（在 Chrome 中其外观如 图3-12 所示）仅包含两个并排的文本区域，分别与从发件人的数据通道发送的数据和另一方在另一端接收的数据相关联 接收者的数据通道。 三个按钮用于编排应用程序：（1）在启动时按下的“开始”按钮； （2）需要在数据通道上流式传输新数据时使用的发送按钮； （3）关闭按钮，可用于重置应用程序并将其恢复到原始状态。
 
 
-![图3-12](images/rcwr_0312.png)
+![图3-12](./images/rcwr_0312.png)
 
 图3-12 Chrome 中加载的 `DataChannel` 示例页面
 
@@ -125,11 +125,11 @@ remotePeerConnection.ondatachannel = gotReceiveChannel;
 
 图3-13 和 图3-14 中 JavaScript 控制台日志上的注释显示了引导过程的第一阶段，该过程分别在 Chrome 和 Firefox 中进行。 从日志中我们可以看到，在创建本地和远程对等连接之后，`Offer/Answer` 阶段即开始。
 
-![图3-13](images/rcwr_0313.png)
+![图3-13](./images/rcwr_0313.png)
 
 图3-13 在 Chrome 中启动数据通道应用程序
 
-![图3-14](images/rcwr_0314.png)
+![图3-14](./images/rcwr_0314.png)
 
 图3-14 在 Firefox 中启动数据通道应用程序
 
@@ -175,11 +175,11 @@ function handleReceiveChannelStateChange() {
 
 图3-15（Chrome）和图3-16（Firefox）中的快照在引导过程结束时显示了应用程序的状态。
 
-![图3-15](images/rcwr_0315.png)
+![图3-15](./images/rcwr_0315.png)
 
 图3-15 启动后，Chrome 中的数据通道应用程序
 
-![图3-16](images/rcwr_0316.png)
+![图3-16](./images/rcwr_0316.png)
 
 图3-16 启动后，Firefox 中的数据通道应用程序
 
@@ -216,19 +216,19 @@ function handleMessage(event) {
 
 同样，图3-19（Chrome）和 图3-20（Firefox）在 HTML 页面中报告消息接收和相关操作。
 
-![图3-17](images/rcwr_0317.png)
+![图3-17](./images/rcwr_0317.png)
 
 图3-17 准备在 Chrome 中的数据通道流式传输消息
 
-![图3-18](images/rcwr_0318.png)
+![图3-18](./images/rcwr_0318.png)
 
 图3-18 准备在 Firefox 中的数据通道流式传输消息
 
-![图3-19](images/rcwr_0319.png)
+![图3-19](./images/rcwr_0319.png)
 
 图3-19 从 Chrome 的数据通道接收消息
 
-![图3-20](images/rcwr_0320.png)
+![图3-20](./images/rcwr_0320.png)
 
 图3-20 从 Firefox 中的数据通道接收消息
 
@@ -282,11 +282,11 @@ log('Closed peer connections');
 
 通过查看 图3-21（Chrome）和 图3-22（Firefox）中的 HTML 页面和 JavaScript 控制台，读者可以体会到执行此代码的效果。
 
-![图3-21](images/rcwr_0321.png)
+![图3-21](./images/rcwr_0321.png)
 
 图3-21 在 Chrome 中关闭频道并重置应用程序
 
-![图3-22](images/rcwr_0322.png)
+![图3-22](./images/rcwr_0322.png)
 
 图3-22 在 Firefox 中关闭频道并重置应用程序
 

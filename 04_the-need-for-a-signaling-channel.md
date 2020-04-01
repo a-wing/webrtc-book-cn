@@ -9,7 +9,7 @@
 
 与往常一样，我们将继续采用 “按示例学习” 方法，以便让您了解如何在两个远程对等之间建立服务器辅助的信令通道。 在本章中，我们将专注于简单交互场景的实现，如 图4-1 的序列图中所示。
 
-![图4-1](images/rcwr_0401.png)
+![图4-1](./images/rcwr_0401.png)
 
 图4-1 信令通道示例：序列图
 
@@ -117,11 +117,11 @@ var socket = io.connect('http://localhost:8181');
 channel = prompt("Enter signaling channel name:");
 ```
 
-![图4-2](images/rcwr_0402.png)
+![图4-2](./images/rcwr_0402.png)
 
 图4-2 第一步：创建频道
 
-![图4-3](images/rcwr_0403.png)
+![图4-3](./images/rcwr_0403.png)
 
 图4-3 在 Chrome 中加载的示例页面（渠道发起者）
 
@@ -172,13 +172,13 @@ socket.on('created', function (channel) {
 });
 ```
 
-![图4-4](images/rcwr_0404.png)
+![图4-4](./images/rcwr_0404.png)
 
 图4-4 信令服务器管理发起者的请求
 
 上述情况如 图4-5 所示。
 
-![图4-5](images/rcwr_0405.png)
+![图4-5](./images/rcwr_0405.png)
 
 图4-5 频道创建后发起者的窗口
 
@@ -186,7 +186,7 @@ socket.on('created', function (channel) {
 
 现在，我们转到第二个客户端，即通道连接器，重点关注 图4-6 所示的呼叫流程部分。
 
-![图4-6](images/rcwr_0406.png)
+![图4-6](./images/rcwr_0406.png)
 
 图4-6 加入已经存在的通道
 
@@ -211,23 +211,23 @@ socket.on('created', function (channel) {
 2. 允许新客户进入已经存在的房间。
 3. 更新（通过广播消息）频道启动程序有关加入操作成功完成的信息，使其准备开始新的对话。
 
-![图4-7](images/rcwr_0407.png)
+![图4-7](./images/rcwr_0407.png)
 
 图4-7 在 Firefox 中加载的示例页面（通道连接器）
 
 图4-8 报告了这样的一系列操作，该图显示了呼叫流程此阶段的服务器控制台。
 
-![图4-8](images/rcwr_0408.png)
+![图4-8](./images/rcwr_0408.png)
 
 图4-8 信令服务器管理加入者的请求
 
 图4-9 和 图4-10 分别显示了加入者和发起者的窗口，在加入者和发起者成功加入后者创建的信令通道之后。 正如读者所认识到的那样，此服务器端操作序列在启动器的 HTML5 页面（图4-10）中以红色报告，现在提示用户要在服务器中介的通信路径上交换第一条消息。
 
-![图4-9](images/rcwr_0409.png)
+![图4-9](./images/rcwr_0409.png)
 
 图4-9 加入频道后的加入者窗口
 
-![图4-10](images/rcwr_0410.png)
+![图4-10](./images/rcwr_0410.png)
 
 图4-10 设置通道后开始对话
 
@@ -235,7 +235,7 @@ socket.on('created', function (channel) {
 
 现在，我们进入了 图4-11 中报告的呼叫流程阶段，该阶段基本上捕获了应用程序的核心。 实际上，在此阶段中，发起方将第一条消息发送到连接器，该连接器首先被通知此事件，然后提示您引入适当的 `answer` 。
 
-![图4-11](images/rcwr_0411.png)
+![图4-11](./images/rcwr_0411.png)
 
 图4-11 开始会话
 
@@ -252,13 +252,13 @@ socket.on('message', function (message) {
 
 图4-12 的控制台快照中说明了上述服务器的行为。
 
-![图4-12](images/rcwr_0412.png)
+![图4-12](./images/rcwr_0412.png)
 
 图4-12 信令服务器充当中继节点
 
 图4-13 显示了刚刚接收到服务器中继的消息的远程对等方（连接程序）。
 
-![图4-13](images/rcwr_0413.png)
+![图4-13](./images/rcwr_0413.png)
 
 图4-13 远程对等方从信令服务器接收中继消息
 
@@ -301,7 +301,7 @@ socket.on('response', function (response) {
 
 服务器的控制台快照在 图4-14 中再次说明了此行为。
 
-![图4-14](images/rcwr_0414.png)
+![图4-14](./images/rcwr_0414.png)
 
 图4-14 信令服务器中继远程对等方的响应
 
@@ -310,7 +310,7 @@ socket.on('response', function (response) {
 
 现在，我们处于应用程序的稳态部分（图4-15），两个对等方只是轮流要求服务器将消息中继到另一方。
 
-![图4-15](images/rcwr_0415.png)
+![图4-15](./images/rcwr_0415.png)
 
 图4-15 稳定状态下的信令信道使用
 
@@ -343,19 +343,19 @@ socket.on('response', function (response) {
 
 基本上，在接收到新消息后，每个对等方都会执行通常的日志记录操作，然后提示用户进行新的输入。 只要插入的文本的值不是 `Bye` ，它就会向对方发送新消息。 图4-16 显示了在通道中发出新消息之前发起者的窗口。
 
-![图4-16](images/rcwr_0416.png)
+![图4-16](./images/rcwr_0416.png)
 
 图4-16 继续聊天（发起方）
 
 图4-17 依次显示了接收到这样的消息后的服务器控制台，该消息照常广播到远程方。
 
-![图4-17](images/rcwr_0417.png)
+![图4-17](./images/rcwr_0417.png)
 
 图4-17 继续聊天（服务器端）
 
 最后，图4-18 显示了接收方接收到的中继消息。
 
-![图4-18](images/rcwr_0418.png)
+![图4-18](./images/rcwr_0418.png)
 
 图4-18 继续聊天（加入方）
 
@@ -363,7 +363,7 @@ socket.on('response', function (response) {
 
 现在，我们准备分析通道拆除，如图4-19的呼叫流摘要所述。
 
-![图4-19](images/rcwr_0419.png)
+![图4-19](./images/rcwr_0419.png)
 
 图4-19 关闭信令通道
 
@@ -386,7 +386,7 @@ if(chatMessage == "Bye") {
 }
 ```
 
-![图4-20](images/rcwr_0420.png)
+![图4-20](./images/rcwr_0420.png)
 
 图4-20。 通过 `Bye` 消息关闭通道
 
@@ -405,7 +405,7 @@ socket.on('Bye', function(channel) {
 });
 ```
 
-![图4-21](images/rcwr_0421.png)
+![图4-21](./images/rcwr_0421.png)
 
 图4-21 发起方断开连接
 
@@ -449,7 +449,7 @@ socket.disconnect();
 
 在 图4-22 的快照中可以轻松识别上述操作顺序。
 
-![图4-22](images/rcwr_0422.png)
+![图4-22](./images/rcwr_0422.png)
 
 图4-22 远程对等方处理中继断开消息并断开连接
 
@@ -464,7 +464,7 @@ socket.on('Ack', function () {
 });
 ```
 
-![图4-23](images/rcwr_0423.png)
+![图4-23](./images/rcwr_0423.png)
 
 图4-23 服务器端的关闭通道
 

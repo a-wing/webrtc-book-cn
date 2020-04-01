@@ -32,7 +32,7 @@
 回到 API，调用 `new RTCPeerConnection(configuration)` 会创建一个 `RTCPeerConnection` 对象，该对象是两个用户/浏览器之间通信通道的抽象，可以为特定的 `MediaStream` 输入或输出，如 图3-1 所示。配置参数包含信息，以查找对 NAT 遍历设置阶段必需的对 STUN 和 TURN 服务器的访问。
 
 
-![图3-1](images/rcwr_0301.png)
+![图3-1](./images/rcwr_0301.png)
 
 图3-1 将 `MediaStream` 添加到 `PeerConnection`
 
@@ -88,11 +88,11 @@
 
 当用户单击Chrome（图3-2）和Firefox（图3-3）中的“开始”按钮时，会发生以下情况
 
-![图3-2](images/rcwr_0302.png)
+![图3-2](./images/rcwr_0302.png)
 
 图3-2 在 Chrome 中加载的示例页面
 
-![图3-3](images/rcwr_0303.png)
+![图3-3](./images/rcwr_0303.png)
 
 图3-3 在 Firefox 中加载的示例页面
 
@@ -369,11 +369,11 @@ function gotRemoteDescription(description){
 实际上，可以在浏览器的控制台上跟踪上述整个呼叫流程，如图3-6（Chrome）和图3-7（Firefox）所示。
 
 
-![图3-6](images/rcwr_0306.png)
+![图3-6](./images/rcwr_0306.png)
 
 图3-6 Chrome 控制台跟踪两个本地对等方之间的呼叫
 
-![图3-7](images/rcwr_0307.png)
+![图3-7](./images/rcwr_0307.png)
 
 图3-7 Firefox 控制台跟踪两个本地对等方之间的呼叫
 

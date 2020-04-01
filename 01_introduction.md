@@ -21,7 +21,7 @@ Web实时通信（WebRTC）是一种新的标准，也是行业的一项努力�
 WebRTC 在浏览器之间的引入点对点通信范式来扩展 client-server 的语义(semantics)。 最通用的 WebRTC 架构模型（见图1-1）从所谓的 SIP （会话发起协议）梯形（[RFC3261](https://tools.ietf.org/html/rfc3261)）中汲取灵感。
 
 
-![图1-1](images/rcwr_0101.png)
+![图1-1](./images/rcwr_0101.png)
 
 图1-1 WebRTC 梯形
 
@@ -31,7 +31,7 @@ WebRTC 在浏览器之间的引入点对点通信范式来扩展 client-server �
 
 最常见的 WebRTC 场景很可能是两种浏览器都运行相同的 Web 应用程序（从相同的网页下载）。 在这种情况下，梯形变为三角形 (见图1-2).
 
-![图1-2](images/rcwr_0102.png)
+![图1-2](./images/rcwr_0102.png)
 
 图1-2 WebRTC 三角形
 
@@ -47,7 +47,7 @@ WebRTC web 应用程序(通常以 HTML 和 JavaScript 的混合形式编写) 通
 > 私有本地网络边缘的 NAT 设备负责维护私有本地 IP 和端口元组到一个或多个全局惟一的公共 IP 和端口元组的表映射。这使得 NAT 背后的本地 IP 地址可以在许多不同的网络中重用，从而解决了 IPv4 地址耗尽的问题。
 >
 
-![图1-3](images/rcwr_0103.png)
+![图1-3](./images/rcwr_0103.png)
 
 图1-3 浏览器中的实时通信
 
@@ -97,7 +97,7 @@ W3C WebRTC 1.0 API 允许 JavaScript 应用程序利用新型浏览器的实时�
 
 如 图1-4 所示，在多媒体通信中，每个媒体通常在单独的 RTP 会话中使用自己的 RTCP 包进行传输。但是，为了克服为每个使用的流打开一个新的 NAT 洞的问题，IETF 目前正在研究减少基于 rtp 的实时应用程序所消耗的传输层端口数量的可能性。这个想法是结合。在单个 RTP 会话中的多媒体通信。
 
-![图1-4](images/rcwr_0104.png)
+![图1-4](./images/rcwr_0104.png)
 
 图1-4 WebRTC 协议栈
 
@@ -140,7 +140,7 @@ Alice 和 Bob 都是共同呼叫服务的用户。为了进行通信，必须将
 
 Bob 浏览器上的 JavaScript 处理传入的消息并提醒 Bob。 如果 Bob 决定接听电话，则在他的浏览器中运行的 JavaScript 随后将实例化与来自 Alice 一方的消息相关的 `PeerConnection`。 然后，将发生类似于 Alice 浏览器上的过程。 Bob 的浏览器会验证呼叫服务已获得批准并创建了媒体流； 之后，将包含媒体信息，ICE 候选对象和指纹的信令消息通过信令服务发送回 Alice。
 
-![图1-5](images/rcwr_0105.png)
+![图1-5](./images/rcwr_0105.png)
 
 图1-5 从 Alice 的角度来看通话设置
 
