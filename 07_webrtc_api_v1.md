@@ -15,7 +15,7 @@ WebRTC 1.0 APIs
 
 Name | Type | Default | Description
 ---- | ---- | ------- | -----------
-iceServers | sequence<RTCIceServer> | | 包含可供 ICE 使用的服务器（例如 STUN 和 TURN 服务器）的 URI 的数组。
+iceServers | `sequence<RTCIceServer>` | | 包含可供 ICE 使用的服务器（例如 STUN 和 TURN 服务器）的 URI 的数组。
 iceTransports | RTCIceTransports | `all` | 表示允许 ICE 引擎使用的候选对象。
 requestIdentity | RTCIdentityOption | `ifconfigured` | 请参阅 `RTCOfferAnswerOptions` 字典的 `requestIdentity` 成员。
 
@@ -25,7 +25,7 @@ requestIdentity | RTCIdentityOption | `ifconfigured` | 请参阅 `RTCOfferAnswer
 Name | Type | Description
 ---- | ---- | -----------
 credential | DOMString | 如果此 `RTCIceServer` 对象表示 TURN 服务器，则此属性指定用于该 TURN 服务器的凭据
-urls | (DOMString orsequence<DOMString>) | [STUN-URI] 和 [TURN-URI] 中定义的 STUN 或 TURN URI 或其他 URI 类型。
+urls | (DOMString or `sequence<DOMString>`) | [STUN-URI] 和 [TURN-URI] 中定义的 STUN 或 TURN URI 或其他 URI 类型。
 username | DOMString | 如果此 `RTCIceServer` 对象表示 TURN 服务器，则此属性指定用于该 TURN 服务器的用户名。
 
 表A-3 `RTCIceTransports` 枚举值
