@@ -77,8 +77,7 @@
 
 例3-1 充当两个视频流的容器，以表格式并排表示。 左侧的流表示本地捕获，而右侧的流则模拟远程方（实际上是对本地音频和视频设备的进一步捕获）。 媒体捕获和渲染是由与三个按钮关联的事件触发的，这三个按钮分别用于启动应用程序，在本地和（假）远程用户之间进行呼叫以及挂断该呼叫。 像往常一样，此应用程序的核心是文件 localPeerConnection.js 中包含的 JavaScript 代码，其报告如下：
 
-[由于这段代码太长，单独放到一个文件里了](js/localPeerConnection.js)
-
+<<< @/js/localPeerConnection.js
 
 
 为了轻松理解此代码的内容，让我们逐步跟踪我们应用程序的发展。 我们将显示使用 Chrome 和 Firefox 拍摄的屏幕截图，因此您可以欣赏与应用程序外观和两种浏览器提供的开发人员工具相关的差异。
@@ -167,8 +166,11 @@ function call() {
   ...
 ```
 
-> ### **Note :**
-> 由 Media Capture and Streams API 中的 `MediaStream` 构造函数定义的 `getVideoTracks()` 和 `getAudioTracks()` 方法，返回一系列 `MediaStreamTrack` 对象，分别表示流中的视频轨道和音频轨道。
+::: warning 注意
+
+由 Media Capture and Streams API 中的 `MediaStream` 构造函数定义的 `getVideoTracks()` 和 `getAudioTracks()` 方法，返回一系列 `MediaStreamTrack` 对象，分别表示流中的视频轨道和音频轨道。
+
+:::
 
 完成前面的操作后，我们终于进入了代码的核心，即我们第一次遇到 `RTCPeerConnection` 对象的部分：
 
@@ -223,8 +225,11 @@ localPeerConnection.onicecandidate = gotLocalIceCandidate;
 * * *
 
 
-> ### **Note :**
-> 每当浏览器内部的 ICE 协议机器将新候选者提供给本地对等方时，就会触发 `onicecandidate` 处理程序。
+::: warning 注意
+
+每当浏览器内部的 ICE 协议机器将新候选者提供给本地对等方时，就会触发 `onicecandidate` 处理程序。
+
+:::
 
 ```javascript
 // Handler to be called whenever a new local ICE candidate becomes available
@@ -237,14 +242,19 @@ function gotLocalIceCandidate(event) {
 }
 ```
 
-> ### **译者 注**
-> `if (event.candidate === null) { console.log("ICE Candidate was null, done") }`
->
-> 这个 `event.candidate` 是可以为空的，当为空时说明 iceServer 已经遍历完成，不会再有新的 candidate 产生
+::: tip 译者 注
 
+`if (event.candidate === null) { console.log("ICE Candidate was null, done") }`
 
-> ### **Note :**
-> `addIceCandidate()` 方法向 ICE 代理提供远程候选对象。 除了将其添加到远程描述中之外，只要 `IceTransports` 约束未设置为 “none”，连通性检查将被发送到新的候选对象。
+这个 `event.candidate` 是可以为空的，当为空时说明 iceServer 已经遍历完成，不会再有新的 candidate 产生
+
+:::
+
+::: warning 注意
+
+`addIceCandidate()` 方法向 ICE 代理提供远程候选对象。 除了将其添加到远程描述中之外，只要 `IceTransports` 约束未设置为 “none”，连通性检查将被发送到新的候选对象。
+
+:::
 
 
 该代码片段理所当然地认为远程对等点实际上是在本地运行的，从而避免了通过正确配置的信令通道将有关收集的本地地址的信息发送给另一方的需求。 这就是为什么如果您尝试在两台远程计算机上运行该应用程序将根本无法运行的原因。 在随后的章节中，我们将讨论如何创建这样的信令通道，并使用它来将 ICE 相关（以及会话相关）信息传输到远程方。 目前，我们仅将收集的本地网络可达性信息添加到（本地可用）远程对等连接（`remote peer connection`）。 显然，在主叫方和被叫方之间切换角色时，同样的道理也适用，即，只要有远程候选者，它们就会被简单地添加到本地对等连接（`local peer connection`）中：
@@ -263,9 +273,11 @@ remotePeerConnection.onicecandidate = gotRemoteIceCandidate;
 remotePeerConnection.onaddstream = gotRemoteStream;
 ```
 
-> ### **Note :**
-> 每当远程对等方分别添加或删除 `MediaStream` 时，都会调用 `onaddstream` 和 `onremovestream` 处理函数。这两者仅在执行 `setRemoteDescription()` 方法时才会被触发。
+::: warning 注意
 
+每当远程对等方分别添加或删除 `MediaStream` 时，都会调用 `onaddstream` 和 `onremovestream` 处理函数。这两者仅在执行 `setRemoteDescription()` 方法时才会被触发。
+
+:::
 
 上面的代码片段与 `onaddstream` 处理函数有关，该处理函数的实现在将远程流（一旦可用时）附加到 HTML5 页面的 `remoteVideo` 元素后进行查找，如下所示：
 
@@ -304,21 +316,24 @@ function onSignalingError(error) {
 }
 ```
 
-> ### **Note :**
->
-> `addStream()` 和 `removeStream()` 方法分别向 `RTCPeerConnection` 对象添加流和移除流。
+::: warning 注意
+
+`addStream()` 和 `removeStream()` 方法分别向 `RTCPeerConnection` 对象添加流和移除流。
+
+:::
 
 `createOffer()` 方法起着基本作用，因为它要求浏览器正确检查 `PeerConnection` 的内部状态并生成适当的 `RTCSessionDescription` 对象，从而启动 “提供/应答（`Offer/Answer`）” 状态机。
 
-> ### **Note :**
->
-> `createOffer()` 方法生成一个 `SDP Blob`，其中包含：
-> 1. 具有会话支持的配置 RFC3264 的 `offer`
-> 2. 附加（attached）的 `localMediaStreams` 的描述
-> 3. 浏览器支持的 `codec/RTP/RTCP` 选项
-> 4. ICE 收集的所有候选对象
-> 5. 可以提供约束参数以对生成的要约提供附加控制
+::: warning 注意
 
+`createOffer()` 方法生成一个 `SDP Blob`，其中包含：
+1. 具有会话支持的配置 [RFC3264](https://tools.ietf.org/html/rfc3264) 的 `offer`
+2. 附加（attached）的 `localMediaStreams` 的描述
+3. 浏览器支持的 `codec/RTP/RTCP` 选项
+4. ICE 收集的所有候选对象
+5. 可以提供约束参数以对生成的要约提供附加控制
+
+:::
 
 当会话描述对应用程序可用时，`createOffer()` 方法就将调用回调（`gotLocalDescription`）作为输入。 同样在这种情况下，当会话描述可用时，则本地对等方（local peer）应使用信令信道将其发送给被叫方。 目前，我们将跳过此阶段，并再次假设远程方实际上是本地可到达的一方，这将转换为以下操作：
 
@@ -342,10 +357,11 @@ function gotLocalDescription(description){
 如上面的注释片段所述，我们在此将检索到的会话描述直接设置为本地对等方的本地描述和远程对等方的远程描述。
 
 
-> ### **Note :**
->
-> `setLocalDescription() 和 `setRemoteDescription()` 方法指示 `RTCPeerConnection` 将提供的 `RTCSessionDescription` 分别应用为本地描述（`local description`）和远程的 `offer` 或 `answer` 。
+::: warning 注意
 
+`setLocalDescription()` 和 `setRemoteDescription()` 方法指示 `RTCPeerConnection` 将提供的 `RTCSessionDescription` 分别应用为本地描述（`local description`）和远程的 `offer` 或 `answer` 。
+
+:::
 
 然后，我们通过调用远程对等体连接上的 `createAnswer()` 方法来要求远程对等体应答所提供的会话。 一旦远程浏览器将其自己的会话描述提供给远程对等方，此方法就将要调用的回调（`gotRemoteDescription`）作为输入参数。 这样的处理程序实际上反映了呼叫方的伴随回调的行为：
 
@@ -416,9 +432,11 @@ function hangup() {
 
 正如我们从快速浏览代码中看到的那样，`hangup()` 处理程序仅关闭实例化的对等连接并释放资源。 然后，它禁用 “挂断” 按钮并启用 “呼叫” 按钮，从而将设置回滚到我们首次启动应用程序后（即，在 `getUserMedia()` 调用之后）立即到达的位置。 从中可以发出新的呼叫，并且可以重新开始游戏。 图3-10（Chrome）和图3-11（Firefox）中描述了这种情况。
 
-> ### **Note :**
->
-> `close()` 方法销毁 `RTCPeerConnection` ICE 代理，突然结束任何活动的 ICE 处理和任何活动的流，并释放任何相关资源。
+::: warning 注意
+
+`close()` 方法销毁 `RTCPeerConnection` ICE 代理，突然结束任何活动的 ICE 处理和任何活动的流，并释放任何相关资源。
+
+:::
 
 Figure 3-10. Chrome after tearing down a call
 
@@ -467,8 +485,7 @@ Figure 3-11. Firefox after tearing down a call
 像往常一样，此应用程序的核心行为是在嵌入式 JavaScript 文件 `dataChannel.js` 中实现的，其布局如下：
 
 
-[由于这段代码太长，单独放到一个文件里了](js/dataChannel.js)
-
+<<< @/js/dataChannel.js
 
 
 与前面的示例一样，我们将通过逐步跟踪应用程序的生命周期来分析其行为。 我们将跳过所有已经说明的部分。 这使我们可以只关注代码中引入的新功能。
@@ -508,8 +525,11 @@ try {
 
 上面的代码片段显示了如何通过调用 `createDataChannel()` 方法将 `DataChannel` 添加到现有的 `PeerConnection` 中。 请注意，这是特定于浏览器的功能，而不是标准化的约束。
 
-> ### **Suggestion :**
-> WebRTC API 没有使用 `DataChannel` API 定义约束的使用。 相反，它定义了所谓的 `RTCDataChannel Init` 字典（表3-1）的用法。
+::: warning
+
+WebRTC API 没有使用 `DataChannel` API 定义约束的使用。 相反，它定义了所谓的 `RTCDataChannel Init` 字典（表3-1）的用法。
+
+:::
 
 通过调用 `createDataChannel("sendDataChannel", {reliable: true});` 方法，数据通道本身实际上已添加到新实例化的对等连接中。 代码显示这种数据通道可能不可靠或可靠。通过正确使用 SCTP 协议可以保证可靠性，并且该功能最初仅在 Firefox 中可用。 从 Chrome 版本29开始，才在 Chrome 中实现。
 
@@ -625,8 +645,11 @@ function sendData() {
 }
 ```
 
-> ### **Note :**
-> `send()` 方法尝试在通道的基础数据传输上发送数据
+::: warning
+
+`send()` 方法尝试在通道的基础数据传输上发送数据
+
+:::
 
 一旦有新数据到达接收器，`handleMessage()` 处理函数就会被调用。 这样的处理程序首先在接收者的文本区域内打印收到的消息，然后重置发送者的编辑框：
 
@@ -680,8 +703,11 @@ function closeDataChannels() {
 ...
 ```
 
-> ### **Note :**
-> `close()` 方法尝试关闭通道。
+::: warning
+
+`close()` 方法尝试关闭通道。
+
+:::
 
 * 关闭 peer connections:
 
