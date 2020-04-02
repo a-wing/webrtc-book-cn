@@ -10,7 +10,7 @@ module.exports = {
         children: [
           { title: '第1章 简介', path: '01_introduction' },
           { title: '第2章 处理浏览器中的媒体', path: '02_handling-media-in-the-browser' },
-          { title: '第3章 构建浏览器 RTC 梯形图：本地透视图', path: '03_building-the-browser-RTC-trapezoid' },
+          { title: '第3章 构建浏览器 RTC 梯形图：本地视角', path: '03_building-the-browser-RTC-trapezoid' },
           { title: '第4章 需要信令通道', path: '04_the-need-for-a-signaling-channel' },
           { title: '第5章 放在一起：Scratch 的第一个 WebRTC 系统', path: '05_putting_it_all_together' },
           { title: '第6章 WebRTC API 的高级功能简介', path: '06_advanced_features' },

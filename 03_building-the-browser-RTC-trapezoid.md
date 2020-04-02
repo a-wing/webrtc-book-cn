@@ -1,4 +1,4 @@
-第3章 构建浏览器 RTC 梯形图：本地透视图 **Building the Browser RTC Trapezoid: A Local Perspective**
+第3章 构建浏览器 RTC 梯形图：本地视角
 =====
 
 
