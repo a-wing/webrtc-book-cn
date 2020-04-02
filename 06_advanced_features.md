@@ -28,13 +28,19 @@ WebRTC API 没有提供任何特定的机制来辅助会议方案。 识别 MCU 
 
 W3C WebRTC 工作组实际上正在研究基于 Web 的身份提供程序（IdP）机制。 想法是，每个浏览器都与支持协议（例如，OpenId 或 BrowserID ）的 IdP 有关系，该协议可用于在与其他对等方进行交互时声明其自身的身份。 与 IdP 的交互的设计方式是使浏览器与任何特定的身份提供者脱钩（即，参与通信的每个浏览器可能与不同的 IdP 有关系）。
 
-> ### **Note :**
-> `setIdentityProvider()` 方法设置用于给定 `PeerConnection` 对象的身份提供者。 如果已经为特定的 IdP 配置了浏览器，则应用程序无需调用此调用。在这种情况下，已配置的 IdP 将用于获取断言。
+::: warning 注意
+
+`setIdentityProvider()` 方法设置用于给定 `PeerConnection` 对象的身份提供者。 如果已经为特定的 IdP 配置了浏览器，则应用程序无需调用此调用。在这种情况下，已配置的 IdP 将用于获取断言。
+
+:::
 
 发送 Offer 的浏览器充当身份验证方（AP），并从 IdP 获得将其身份绑定到自己的指纹（在 DTLS 握手期间生成）的身份声明。 然后将此身份声明附加到要约。
 
-> ### **Note :**
-> `getIdentityProvider()` 方法启动获取身份声明的过程。 应用程序不需要调用此调用； 该方法仅旨在允许他们在发起呼叫之前开始获取身份声明的过程。
+::: warning 注意
+
+`getIdentityProvider()` 方法启动获取身份声明的过程。 应用程序不需要调用此调用； 该方法仅旨在允许他们在发起呼叫之前开始获取身份声明的过程。
+
+:::
 
 在 Offer/Answer 交换阶段中扮演消费者角色的浏览器（例如，具有 `RTCPeerConnection` 的浏览器被调用 `setRemoteDescription()` 的浏览器）充当依赖方（RP），并通过直接联系 IdP 的 IdP 来验证断言 发送 Offer 的浏览器（图6-1）。 使用 Chrome 浏览器时，这使用户可以显示受信任的图标，指示正在从受信任的联系人来的呼叫。
 
@@ -48,13 +54,19 @@ W3C WebRTC 工作组实际上正在研究基于 Web 的身份提供程序（IdP�
 
 为了在 `RTCPeerConnection` 上发送 DTMF（例如，通过电话小键盘）值，用户代理需要知道哪个特定的 `MediaStreamTrack` 会携带声音。
 
-> ### **Note :**
-> `createDTMFSender()` 方法创建一个引用给定 `MediaStreamTrack` 的 `RTCDTMFSender` 对象。 `MediaStreamTrack` 必须是当前在 `RTCPeerConnection` 对象的本地流集中的 `MediaStream` 的元素。
+::: warning 注意
+
+`createDTMFSender()` 方法创建一个引用给定 `MediaStreamTrack` 的 `RTCDTMFSender` 对象。 `MediaStreamTrack` 必须是当前在 `RTCPeerConnection` 对象的本地流集中的 `MediaStream` 的元素。
+
+:::
 
 一旦创建了 `RTCDTMFSender` 对象，就可以使用它通过 `insertDTMF()` 方法跨该 `MediaStreamTrack`（通过 `PeerConnection`）发送 DTMF 音调。
 
-> ### **Note :**
-> `insertDTMF()` 方法用于发送 DTMF 音频。 `tones` 参数被视为一系列字符。 字符 0 到 9 ，A 到 D ， ＃ 和 * 生成关联的 DTMF 音调。
+::: warning 注意
+
+`insertDTMF()` 方法用于发送 DTMF 音频。 `tones` 参数被视为一系列字符。 字符 0 到 9 ，A 到 D ， ＃ 和 * 生成关联的 DTMF 音调。
+
+:::
 
 ## 统计模型
 
