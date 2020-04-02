@@ -1,15 +1,19 @@
-第5章 放在一起：Scratch 的第一个 WebRTC 系统
+第5章 放在一起：拼凑出你的第一个 WebRTC 系统
 =====
 
-我们终于准备好将所有部分放在一起，并构建我们的第一个 WebRTC 应用程序。 在本章中，通过利用像我们在第4章中描述的那样的信令服务器，我们将在分布式方案中实现 Browser RTC Trapezoid。 基本上，我们将以第3章的运行示例为例，并使其也超出本地视角的范围。
+我们终于准备好将所有部分放在一起，并构建我们的第一个 WebRTC 应用程序。
+在本章中，通过利用像我们在 第4章 中描述的那样的信令服务器，我们将在分布式方案中实现浏览器 RTC 梯形。
+基本上，我们将以 第3章 的运行示例为例，并使其也超出本地视角的范围。
 
 
-我们将展示如何使用信令信道来允许两个对等方交换用户媒体信息，会话描述 和 ICE协议候选者。 我们还将重点介绍如何仅在设置阶段证明信令服务器角色是基础。 实际上，一旦成功交换了上述信息，通信模式便切换为纯对等，服务器本身不参与实际的数据交换阶段。
+我们将展示如何使用信令信道来允许两个对等方交换用户媒体信息，会话描述 和 ICE 协议候选者。
+我们还将重点介绍如何仅在设置阶段证明信令服务器角色是基础。
+实际上，一旦成功交换了上述信息，通信模式便切换为纯对等，服务器本身不参与实际的数据交换。
 
 
 ## 完整的 WebRTC 呼叫流程
 
-图5-1、5-2 和 5-3 提供了与完整的 WebRTC 呼叫流程相关联的全景图，该流程涉及一个信道发起方，一个信道连接器以及在信道建立时在它们之间中继消息的信令服务器。
+图5-1、5-2 和 5-3 提供了与完整的 WebRTC 呼叫流程图，该流程涉及一个信道发起方，一个信道连接器以及在信道建立时在它们之间中继消息的信令服务器。
 
 ![图5-1](./images/rcwr_0501.png)
 
@@ -26,17 +30,19 @@
 
 序列图通过以下步骤变化：
 
-1. 发起方连接到服务器，并使其创建信令通道。
-2. 发起者（在获得用户同意后）可以访问用户的媒体。
+1. Initiator 连接到服务器，并使其创建信令通道。
+2. Initiator（在获得用户同意后）可以访问用户的媒体。
 3. Joiner 连接到服务器并加入频道。
 4. 当 Joiner 还可以访问本地用户的媒体时，将通过服务器将一条消息发送给 Initiator ，从而触发协商过程：
-  - 发起方创建 PeerConnection ，向其添加本地流，创建 SDP `offer`，然后通过信令服务器将其发送到 Joiner。
+  - 发起方创建 `PeerConnection` ，向其添加本地流，创建 SDP `offer`，然后通过信令服务器将其发送到 Joiner。
   - 收到 SDP `offer` 后，Joiner 会通过创建 `PeerConnection` 对象，向其添加本地流并构建 SDP `answer` 以（通过服务器）发送回远程方来镜像发起方的行为。
 5. 在协商过程中，双方利用信令服务器交换网络可达性信息（以 ICE 协议候选地址的形式）。
-6. 当发起方 Joiner 收到 `offer` 并返回 `answer` 时，协商过程结束：双方通过利用各自的 `PeerConnection` 对象切换到对等通信，`PeerConnection` 对象还配备了可用于以下目的的数据通道： 直接交换短信。
+6. 当 Initiator 收到 Joiner 对其自己的`offer` 返回的 `answer` 时，协商过程结束：
+  - 双方通过利用各自的 `PeerConnection` 对象切换到对等通信，`PeerConnection` 对象还配备了可用于直接交换文本消息的数据通道(data channel)。
 
 
-在以下各节中，我们将通过详细分析每个步骤来逐步完成这些步骤。 在进行此操作之前，让我们介绍作为本章的运行示例而设计的简单 Web 应用程序。 HTML 代码在 例5-1 中报告。
+在以下各节中，我们将通过详细分析每个步骤来逐步完成这些步骤。 在进行此操作之前，让我们介绍作为本章的运行示例而设计的简单 Web 应用程序。
+HTML 代码在 例5-1 中。
 
 
 例5-1 简单的 WebRTC 应用程序
@@ -163,9 +169,9 @@ io.sockets.on('connection', function (socket) {
 现在，让我们开始完整的 WebRTC 示例演练。
 
 
-## 发起者加入频道
+## Initiator 加入频道
 
-图5-4 显示了启动上一节中描述的示例 WebRTC 应用程序时，发起方采取的动作序列。
+图5-4 显示了启动上一节中描述的示例 WebRTC 应用程序时，Initiator 采取的动作序列。
 
 ![图5-4](./images/rcwr_0504.png)
 
@@ -231,9 +237,11 @@ socket.on('created', function (room) {
 
 ![图5-7](./images/rcwr_0507.png)
 
-图5-7 发起人征求用户同意
+图5-7 Initiator 征求用户同意
 
-以下快照报告了 `handleUserMedia()` 成功处理程序执行的操作：（1）检索到的视频流附加到HTML页面的本地 `<video>` 元素； （2）获取到的用户媒体消息发送给服务器。
+以下快照报告了 `handleUserMedia()` 成功处理程序执行的操作：
+1. 检索到的视频流附加到 HTML 页面的本地 `<video>` 元素
+2. 获取到的用户媒体消息发送给服务器
 
 ```javascript
 // Call getUserMedia()
@@ -278,7 +286,7 @@ function checkAndStart() {
     ...
 ```
 
-## 加入者加入通道
+## Joiner 加入频道
 
 现在，让我们找出第二个同伴加入该频道时发生的情况。 相关的动作顺序如 图5-9 所示。
 
@@ -306,11 +314,11 @@ socket.on('join', function (room){
 });
 ```
 
-最后，以下 JavaScript 说明了客户端如何意识到自己在扮演 Joiner 的角色，因为它返回了对 create 或 join 请求的联接响应：
+最后，以下 JavaScript 说明了客户端如何意识到自己在扮演 Joiner 的角色，因为它返回了对 create 或 join 请求的连接响应：
 
 ![图5-9](./images/rcwr_0509.png)
 
-图5-9 加入者加入频道
+图5-9 Joiner 加入频道
 
 ```javascript
 // Handle 'joined' message coming back from server:
@@ -326,10 +334,13 @@ socket.on('joined', function (room) {
 图5-10 信令服务器管理 Joiner 的请求
 
 
-从这一点开始， Joiner 在协商的此阶段执行的其余操作与我们在上一节中查看 Initiator 的角色时所描述的操作完全相同：（1）访问本地媒体（等待用户的访问） 同意）; （2）将本地视频附加到 HTML 页面； （3）通过信令服务器将获取的用户媒体消息发送给远程对等体。
+从这一点开始， Joiner 在协商的此阶段执行的其余操作与我们在上一节中查看 Initiator 的角色时所描述的操作完全相同：
+1. 访问本地媒体（等待用户的访问） 同意）
+2. 将本地视频附加到 HTML 页面
+3. 通过信令服务器将获取的用户媒体消息发送给远程对等体
 
 
-## 发起方开始协商
+## Initiator 开始协商
 
 接收到服务器中继的用户媒体消息后，发起者将再次激活 `checkAndStart()` 函数，由于边界条件现在已更改，因此这一次实际上已执行：通道已准备就绪，本地流已 由 `getUserMedia()` API 调用提供。
 
@@ -348,7 +359,8 @@ function checkAndStart() {
 }
 ```
 
-深入研究上述操作的详细信息，以下代码摘录显示，为正确管理ICE候选地址以及远程流的添加和删除，`PeerConnection` 对象附加了许多处理程序。 此外，`PeerConnection` 还配备了一个数据通道，该通道将用于以对等方式与 Joiner 交换文本数据：
+深入研究上述操作的详细信息，以下代码摘录显示，为正确管理 ICE 候选地址以及远程流的添加和删除，`PeerConnection` 对象附加了许多处理程序。
+此外，`PeerConnection` 还配备了一个数据通道，该通道将用于以对等方式与 Joiner 交换文本数据：
 
 ```javascript
 function createPeerConnection() {
@@ -389,7 +401,7 @@ function createPeerConnection() {
 
 ![图5-11](./images/rcwr_0511.png)
 
-图5-11 发起方开始协商
+图5-11 Initiator 开始协商
 
 关于 `doCall()` 函数，它基本上在可用的 `PeerConnection` 上调用 `createOffer()` 方法，要求浏览器正确构建一个 SDP （会话描述协议）对象，该对象代表发起方的媒体和要传达给远程方的功能：
 
@@ -409,7 +421,7 @@ function setLocalAndSendMessage(sessionDescription) {
 }
 ```
 
-## 加入者管理发起者的 `offer`
+## Joiner 管理 Initiator 的 `offer`
 
 图5-12 显示了 Joiner 在收到发起者的 SDP offer 后采取的操作。
 
@@ -439,7 +451,7 @@ socket.on('message', function (message) {
 
 ![图5-12](./images/rcwr_0512.png)
 
-图5-12 参加发起人 offer 后，Joiner 的操作
+图5-12 参加 Initiator 的 offer 后，Joiner 的操作
 
 当由 Joiner 执行时，此函数将创建 Joiner 的 `PeerConnection` 对象并设置 `isStarted` 标志：
 
@@ -460,7 +472,8 @@ function checkAndStart() {
 
 ## ICE 候选人交换
 
-正如我们已经预料到的，信令服务器的主要任务之一是使发起方和连接方之间的网络可达性信息能够交换，从而可以在两者之间建立媒体包流。 交互式连接建立（ICE）RFC5245 技术允许对等方发现有关彼此拓扑的足够信息，从而有可能在彼此之间找到一条或多条通信路径。
+正如我们已经预料到的，信令服务器的主要任务之一是使发起方和连接方之间的网络可达性信息能够交换，从而可以在两者之间建立媒体包流。
+交互式连接建立（ICE）[RFC5245](https://tools.ietf.org/html/rfc5245) 技术允许对等方发现有关彼此拓扑的足够信息，从而有可能在彼此之间找到一条或多条通信路径。
 
 此类信息由与每个 `RTCPeerConnection` 对象关联的 ICE 代理在本地收集。 ICE 代理负责：
 
@@ -550,7 +563,9 @@ Trickle ICE机制涉及以下步骤：
 
 ## Joiner’s Answer
 
-既然我们已经完成了 ICE 候选人交换，那么让我们重新思考一下。 我们当时（第115页上的“ Joiner 管理发起者的 Offer ”）是 Joiner 通过创建自己的 `PeerConnection` 对象来处理发起者的 Offer 的时候。 如 图5-15 所示，完成此操作后，Joiner 首先将接收到的 SDP 与新实例化的 `PeerConnection` 相关联，然后立即调用 `doAnswer()` JavaScript 函数。
+既然我们已经完成了 ICE 候选人交换，那么让我们重新思考一下。
+我们当时（第115页上的“ Joiner 管理 Initiator 的 Offer ”）是 Joiner 通过创建自己的 `PeerConnection` 对象来处理 Initiator 的 Offer 的时候。
+如 图5-15 所示，完成此操作后，Joiner 首先将接收到的 SDP 与新实例化的 `PeerConnection` 相关联，然后立即调用 `doAnswer()` JavaScript 函数。
 
 ![图5-15](./images/rcwr_0515.png)
 
@@ -614,7 +629,7 @@ socket.on('message', function (message) {
 });
 ```
 
-## Going Peer-to-Peer!
+## 开始点对点！
 
 我们终于准备好了！ 两个对等方已成功交换会话描述和网络可达性信息。 借助信令服务器的中介，已经正确设置和配置了两个 `PeerConnection` 对象。 如 图5-16 所示，双向多媒体通信通道现在可用作两个浏览器之间的直接传输工具。 现在服务器已完成其任务，并且此后将被两个通信对等方完全绕开。
 
@@ -626,11 +641,11 @@ socket.on('message', function (message) {
 
 ![图5-17](images/rcwr_0517.png)
 
-图5-17 在 Chrome 中建立了通讯：加入方
+图5-17 在 Chrome 中建立了通信：Joiner
 
 ![图5-18](images/rcwr_0518.png)
 
-图5-18 在 Chrome 中建立通讯：发起方
+图5-18 在 Chrome 中建立通信：Initiator
 
 ### 使用 Data Channel
 
@@ -704,7 +719,7 @@ function sendData() {
 
 ![图5-19](images/rcwr_0519.png)
 
-图5-19 使用数据通道：发起方
+图5-19 使用数据通道：Initiator
 
 消息到达另一侧后，将触发 `handleMessage()` 函数，如下所示，该函数仅获取已传输的数据并将其记录在 HTML 页面的 `receiveTextArea` 元素中：
 
