@@ -32,9 +32,11 @@
 
 我们将逐步完成上述步骤。 在本章的其余部分中，我们将涉及整个基于 WebRTC 的点对点通信生命周期的前三个阶段。 这意味着我们暂时将忘记远程对等方，而只专注于如何从浏览器中访问和使用本地音频和视频资源。 在执行此操作的同时，我们还将研究如何在限制条件下播放（例如，强制视频分辨率）。
 
+::: danger WebRTC 支持的浏览器
 
-> ### **Warning :** WebRTC 支持的浏览器
-> 在撰写本文时，WebRTC API在Chrome，Firefox和Opera中可用。 本书中包含的所有示例均已使用这些浏览器进行了测试。 为了简洁起见（由于Opera和Chrome在实现API方面几乎完全相同），我们从现在开始只将Chrome和Firefox作为运行客户端平台的示例。
+在撰写本文时，WebRTC API 在 Chrome，Firefox 和 Opera 中可用。 本书中包含的所有示例均已使用这些浏览器进行了测试。 为了简洁起见（由于 Opera 和 Chrome 在实现 API 方面几乎完全相同），我们从现在开始只将 Chrome 和 Firefox 作为运行客户端平台的示例。
+
+:::
 
 ## 媒体捕获及数据流
 
@@ -145,9 +147,11 @@ navigator.getUserMedia(constraints, successCallback, errorCallback);
 
 图2-3 在 Firefox 中打开我们的第一个示例
 
-> ### **Warning :** 在 Chrome 中打开 JavaScript 文件
-> 如果要在本地计算机上的 Google Chrome 中测试代码，则将面临一些挑战，因为由于安全限制，Chrome 默认不会加载本地文件。 为了解决这些问题，您必须在计算机上本地运行 Web 服务器并使用它来提供应用程序的文件，或者在启动浏览器时使用 `--allow-file-access-from-files` 选项。
+::: danger 在 Chrome 中打开 JavaScript 文件
 
+如果要在本地计算机上的 Google Chrome 中测试代码，则将面临一些挑战，因为由于安全限制，Chrome 默认不会加载本地文件。 为了解决这些问题，您必须在计算机上本地运行 Web 服务器并使用它来提供应用程序的文件，或者在启动浏览器时使用 `--allow-file-access-from-files` 选项。
+
+:::
 
 从上图中可以看出，两种浏览器在访问本地设备（在本例中为网络摄像头）之前都需要征得用户的同意。 在征得用户的明确同意后，浏览器最终将获取的 `MediaStream` 与页面相关联，如图 2-4 和 2-5 所示。
 
@@ -199,8 +203,11 @@ navigator.getUserMedia(constraints, successCallback, errorCallback);
 
 在本节中，我们将快速了解如何使用 `getUserMedia()` 调用获取轨道时如何应用初始约束集。
 
-> ### **Warning :** WebRTC 浏览器中的 `getUserMedia()` 约束支持
-> 目前仅在 Chrome 中支持 `getUserMedia()` 约束。 本节中的示例将假定您使用此浏览器。
+::: danger WebRTC 浏览器中的 `getUserMedia()` 约束支持
+
+目前仅在 Chrome 中支持 `getUserMedia()` 约束。 本节中的示例将假定您使用此浏览器。
+
+:::
 
 首先，在 例2-3 中构建HTML页面。
 
