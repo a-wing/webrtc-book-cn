@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>WebRTC 实时通信</title>
+    <meta name="description" content="中文版 《 Real-Time Communication with WebRTC 》">
+    <meta name="generator" content="VuePress 1.4.0">
+    
+    
+    <link rel="preload" href="/webrtc-book-cn/assets/css/0.styles.4fb15f60.css" as="style"><link rel="preload" href="/webrtc-book-cn/assets/js/app.d61fefb3.js" as="script"><link rel="preload" href="/webrtc-book-cn/assets/js/2.68e3a1af.js" as="script"><link rel="preload" href="/webrtc-book-cn/assets/js/5.01c71c81.js" as="script"><link rel="prefetch" href="/webrtc-book-cn/assets/js/10.a89ec158.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/11.b91f01ff.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/12.6fd57a5b.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/13.d4881447.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/14.fa704c2e.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/15.47d07794.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/16.0f08ae19.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/3.9415203d.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/4.020bda45.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/6.870a9ffe.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/7.dfa8e81e.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/8.1c5fde37.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/9.aceaace1.js">
+    <link rel="stylesheet" href="/webrtc-book-cn/assets/css/0.styles.4fb15f60.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/webrtc-book-cn/" class="home-link router-link-active"><!----> <span class="site-name">WebRTC 实时通信</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/webrtc-book-cn/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><a href="https://t.me/webrtc_cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Telegram
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="https://github.com/a-wing/webrtc-book-cn/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/webrtc-book-cn/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><a href="https://t.me/webrtc_cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Telegram
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="https://github.com/a-wing/webrtc-book-cn/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/webrtc-book-cn/" class="sidebar-link">关于</a></li><li><a href="/webrtc-book-cn/preface.html" class="sidebar-link">前言</a></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>目录</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/webrtc-book-cn/01_introduction.html" class="sidebar-link">第1章 简介</a></li><li><a href="/webrtc-book-cn/02_handling-media-in-the-browser.html" class="sidebar-link">第2章 处理浏览器中的媒体</a></li><li><a href="/webrtc-book-cn/03_building-the-browser-RTC-trapezoid.html" class="active sidebar-link">第3章 构建浏览器 RTC 梯形图：本地视角</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/webrtc-book-cn/03_building-the-browser-RTC-trapezoid.html#本地使用-peerconnection-对象：一个示例" class="sidebar-link">本地使用 PeerConnection 对象：一个示例</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/webrtc-book-cn/03_building-the-browser-RTC-trapezoid.html#starting-the-application" class="sidebar-link">Starting the Application</a></li><li class="sidebar-sub-header"><a href="/webrtc-book-cn/03_building-the-browser-RTC-trapezoid.html#拨打电话-placing-a-call" class="sidebar-link">拨打电话 Placing a Call</a></li><li class="sidebar-sub-header"><a href="/webrtc-book-cn/03_building-the-browser-RTC-trapezoid.html#挂断-hanging-up" class="sidebar-link">挂断 Hanging Up</a></li></ul></li><li class="sidebar-sub-header"><a href="/webrtc-book-cn/03_building-the-browser-RTC-trapezoid.html#将数据通道添加到本地-peerconnection" class="sidebar-link">将数据通道添加到本地 PeerConnection</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/webrtc-book-cn/03_building-the-browser-RTC-trapezoid.html#启动应用程序" class="sidebar-link">启动应用程序</a></li><li class="sidebar-sub-header"><a href="/webrtc-book-cn/03_building-the-browser-RTC-trapezoid.html#流文本穿过-data-channel" class="sidebar-link">流文本穿过 Data Channel</a></li><li class="sidebar-sub-header"><a href="/webrtc-book-cn/03_building-the-browser-RTC-trapezoid.html#关闭应用" class="sidebar-link">关闭应用</a></li></ul></li></ul></li><li><a href="/webrtc-book-cn/04_the-need-for-a-signaling-channel.html" class="sidebar-link">第4章 需要信令通道</a></li><li><a href="/webrtc-book-cn/05_putting_it_all_together.html" class="sidebar-link">第5章 放在一起：拼凑出你的第一个 WebRTC 系统</a></li><li><a href="/webrtc-book-cn/06_advanced_features.html" class="sidebar-link">第6章 WebRTC API 的高级功能简介</a></li><li><a href="/webrtc-book-cn/07_webrtc_api_v1.html" class="sidebar-link">附录A WebRTC 1.0 APIs</a></li><li><a href="/webrtc-book-cn/about_the_authors.html" class="sidebar-link">关于本书和作者</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="第3章-构建浏览器-rtc-梯形图：本地视角"><a href="#第3章-构建浏览器-rtc-梯形图：本地视角" class="header-anchor">#</a> 第3章 构建浏览器 RTC 梯形图：本地视角</h1> <p>在上一章中，我们通过介绍了所谓的10步 Web real-time 通信配方的前三个步骤，开始深入研究 Media Capture and Streams API。 尤其是，我们讨论了一些示例，这些示例展示了如何使用 <code>getUserMedia()</code> 方法访问和管理本地媒体流。现在开始研究通信部分的时机已经成熟。</p> <p>在本章中，我们将分析 WebRTC 1.0 API，其主要目的是允许向其他浏览器发送和接收媒体</p> <p>正如我们在前几章中已经预期的那样，需要一种机制来适当地协调实时通信，并允许对等方交换控制消息。 在 WebRTC 内部尚未定义这种机制（通常称为信令），因此不属于 RTCPeerConnection API 规范。</p> <p>在一开始就做出了使这种 API 与信令不可知的选择。 WebRTC 中的信令未标准化，因为浏览器之间的互操作性是由 Web 服务器使用下载的 JavaScript 代码来确保的。 这意味着 WebRTC 开发人员可以通过依赖于他们最喜欢的消息传递协议（SIP，XMPP，Jingle等）来实现信令通道，或者他们可以设计一种专有的信令机制，该机制可能仅提供应用程序所需的功能。</p> <p>关于 WebRTC 应用程序这一部分的唯一的体系结构要求涉及在 Web浏览器 和 Web服务器 之间正确配置的双向通信通道的可用性。 XMLHttpRequest（XHR），WebSocket 以及 Google 的 Channel API 之类的解决方案都是很好的选择</p> <p>需要信令通道以允许WebRTC对等点之间交换三种类型的信息：</p> <ul><li><p>媒体会话管理
+设置和断开通信，并报告潜在的错误情况</p></li> <li><p>节点的网络配置
+即使存在NAT也可用于交换实时数据的网络地址和端口</p></li> <li><p>节点的多媒体功能
+支持的媒体，可用的编码器/解码器（编解码器），支持的分辨率和帧速率等。</p></li></ul> <p>在正确交换和协商所有上述信息之前，WebRTC 对等方之间无法传输任何数据。</p> <p>在本章中，我们将忽略与信令通道的设置（和使用）有关的所有上述问题，仅关注 <code>RTCPeerConnection API</code> 的描述。我们将通过某种方式在单台计算机上模拟对等行为来实现此目标。这意味着我们暂时将绕过信令通道设置阶段，并让上述三个步骤（会话管理，网络配置和多媒体功能交换）在单个计算机上进行。
+在第5章中，我们将通过展示本地场景如何在两个启用 WebRTC 的对等点之间引入真正的信令通道，来最终向 WebRTC 建筑中添加最后一块砖。</p> <p>回到 API，调用 <code>new RTCPeerConnection(configuration)</code> 会创建一个 <code>RTCPeerConnection</code> 对象，该对象是两个用户/浏览器之间通信通道的抽象，可以为特定的 <code>MediaStream</code> 输入或输出，如 图3-1 所示。配置参数包含信息，以查找对 NAT 遍历设置阶段必需的对 STUN 和 TURN 服务器的访问。</p> <p><img src="/webrtc-book-cn/assets/img/rcwr_0301.d47be7a7.png" alt="图3-1"></p> <p>图3-1 将 <code>MediaStream</code> 添加到 <code>PeerConnection</code></p> <h2 id="本地使用-peerconnection-对象：一个示例"><a href="#本地使用-peerconnection-对象：一个示例" class="header-anchor">#</a> 本地使用 <code>PeerConnection</code> 对象：一个示例</h2> <p>现在让我们从 例3-1 中显示的简单HTML代码开始。</p> <p>例3-1 本地 <code>RTCPeerConnection</code> 用法示例</p> <div class="language-html extra-class"><pre class="language-html"><code><span class="token doctype">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;
+    &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;</span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">&gt;</span></span>Local PeerConnection() example<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>table</span> <span class="token attr-name">border</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>1<span class="token punctuation">&quot;</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>100%<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">&gt;</span></span>Local video<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">&gt;</span></span>'Remote' video<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>video</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>localVideo<span class="token punctuation">&quot;</span></span> <span class="token attr-name">autoplay</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>video</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>video</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>remoteVideo<span class="token punctuation">&quot;</span></span> <span class="token attr-name">autoplay</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>video</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span> <span class="token attr-name">align</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>center<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>startButton<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>Start<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>callButton<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>Call<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>hangupButton<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>Hang Up<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">&gt;</span></span><span class="token comment">&lt;!-- void --&gt;</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>table</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>js/localPeerConnection.js<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div><p>例3-1 充当两个视频流的容器，以表格式并排表示。 左侧的流表示本地捕获，而右侧的流则模拟远程方（实际上是对本地音频和视频设备的进一步捕获）。 媒体捕获和渲染是由与三个按钮关联的事件触发的，这三个按钮分别用于启动应用程序，在本地和（假）远程用户之间进行呼叫以及挂断该呼叫。 像往常一样，此应用程序的核心是文件 localPeerConnection.js 中包含的 JavaScript 代码，其报告如下：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// JavaScript variables holding stream and connection information</span>
+<span class="token keyword">var</span> localStream<span class="token punctuation">,</span> localPeerConnection<span class="token punctuation">,</span> remotePeerConnection<span class="token punctuation">;</span>
+
+<span class="token comment">// JavaScript variables associated with HTML5 video elements in the page</span>
+<span class="token keyword">var</span> localVideo <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">&quot;localVideo&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> remoteVideo <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">&quot;remoteVideo&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// JavaScript variables assciated with call management buttons in the page</span>
+<span class="token keyword">var</span> startButton <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">&quot;startButton&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> callButton <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">&quot;callButton&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> hangupButton <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">&quot;hangupButton&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Just allow the user to click on the Call button at start-up</span>
+startButton<span class="token punctuation">.</span>disabled <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+callButton<span class="token punctuation">.</span>disabled <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+hangupButton<span class="token punctuation">.</span>disabled <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Associate JavaScript handlers with click events on the buttons</span>
+startButton<span class="token punctuation">.</span>onclick <span class="token operator">=</span> start<span class="token punctuation">;</span>
+callButton<span class="token punctuation">.</span>onclick <span class="token operator">=</span> call<span class="token punctuation">;</span>
+hangupButton<span class="token punctuation">.</span>onclick <span class="token operator">=</span> hangup<span class="token punctuation">;</span>
+
+<span class="token comment">// Utility function for logging information to the JavaScript console</span>
+<span class="token keyword">function</span> <span class="token function">log</span><span class="token punctuation">(</span><span class="token parameter">text</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;At time: &quot;</span> <span class="token operator">+</span> <span class="token punctuation">(</span>performance<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toFixed</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">&quot; --&gt; &quot;</span> \<span class="token operator">+</span> text<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Callback in case of success of the getUserMedia() call</span>
+<span class="token keyword">function</span> <span class="token function">successCallback</span><span class="token punctuation">(</span><span class="token parameter">stream</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;Received local stream&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+	<span class="token comment">// Associate the local video element with the retrieved stream</span>
+	<span class="token keyword">if</span> <span class="token punctuation">(</span>window<span class="token punctuation">.</span><span class="token constant">URL</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		localVideo<span class="token punctuation">.</span>src <span class="token operator">=</span> <span class="token constant">URL</span><span class="token punctuation">.</span><span class="token function">createObjectURL</span><span class="token punctuation">(</span>stream<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+		localVideo<span class="token punctuation">.</span>src <span class="token operator">=</span> stream<span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+
+	localStream <span class="token operator">=</span> stream<span class="token punctuation">;</span>
+
+	<span class="token comment">// We can now enable the Call button</span>
+	callButton<span class="token punctuation">.</span>disabled <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Function associated with clicking on the Start button</span>
+<span class="token comment">// This is the event triggering all other actions</span>
+<span class="token keyword">function</span> <span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;Requesting local stream&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+	<span class="token comment">// First of all, disable the Start button on the page</span>
+	startButton<span class="token punctuation">.</span>disabled <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+
+	<span class="token comment">// Get ready to deal with different browser vendors...</span>
+	navigator<span class="token punctuation">.</span>getUserMedia <span class="token operator">=</span> navigator<span class="token punctuation">.</span>getUserMedia <span class="token operator">||</span>
+		navigator<span class="token punctuation">.</span>webkitGetUserMedia <span class="token operator">||</span> navigator<span class="token punctuation">.</span>mozGetUserMedia<span class="token punctuation">;</span>
+
+	<span class="token comment">// Now, call getUserMedia()</span>
+	navigator<span class="token punctuation">.</span><span class="token function">getUserMedia</span><span class="token punctuation">(</span><span class="token punctuation">{</span>audio<span class="token operator">:</span><span class="token boolean">true</span><span class="token punctuation">,</span> video<span class="token operator">:</span><span class="token boolean">true</span><span class="token punctuation">}</span><span class="token punctuation">,</span> successCallback<span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">error</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		<span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;navigator.getUserMedia error: &quot;</span><span class="token punctuation">,</span> error<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Function associated with clicking on the Call button</span>
+<span class="token comment">// This is enabled upon successful completion of the Start button handler</span>
+<span class="token keyword">function</span> <span class="token function">call</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token comment">// First of all, disable the Call button on the page...</span>
+	callButton<span class="token punctuation">.</span>disabled <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+
+	<span class="token comment">// ...and enable the Hangup button</span>
+	hangupButton<span class="token punctuation">.</span>disabled <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+	<span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;Starting call&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+	<span class="token comment">// Note that getVideoTracks() and getAudioTracks() are not currently</span>
+	<span class="token comment">// supported in Firefox...</span>
+	<span class="token comment">// ...just use them with Chrome</span>
+	<span class="token keyword">if</span> <span class="token punctuation">(</span>navigator<span class="token punctuation">.</span>webkitGetUserMedia<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		<span class="token comment">// Log info about video and audio device in use</span>
+		<span class="token keyword">if</span> <span class="token punctuation">(</span>localStream<span class="token punctuation">.</span><span class="token function">getVideoTracks</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>length <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+			<span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Using video device: '</span> <span class="token operator">+</span> localStream<span class="token punctuation">.</span><span class="token function">getVideoTracks</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>label<span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token punctuation">}</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>localStream<span class="token punctuation">.</span><span class="token function">getAudioTracks</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>length <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+			<span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Using audio device: '</span> <span class="token operator">+</span> localStream<span class="token punctuation">.</span><span class="token function">getAudioTracks</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>label<span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token punctuation">}</span>
+	<span class="token punctuation">}</span>
+
+	<span class="token comment">// Chrome</span>
+	<span class="token keyword">if</span> <span class="token punctuation">(</span>navigator<span class="token punctuation">.</span>webkitGetUserMedia<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		RTCPeerConnection <span class="token operator">=</span> webkitRTCPeerConnection<span class="token punctuation">;</span>
+
+		<span class="token comment">// Firefox</span>
+	<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>navigator<span class="token punctuation">.</span>mozGetUserMedia<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		RTCPeerConnection <span class="token operator">=</span> mozRTCPeerConnection<span class="token punctuation">;</span>
+		RTCSessionDescription <span class="token operator">=</span> mozRTCSessionDescription<span class="token punctuation">;</span>
+		RTCIceCandidate <span class="token operator">=</span> mozRTCIceCandidate<span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>  <span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;RTCPeerConnection object: &quot;</span> <span class="token operator">+</span> RTCPeerConnection<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+	<span class="token comment">// This is an optional configuration string, associated with</span>
+	<span class="token comment">// NAT traversal setup</span>
+	<span class="token keyword">var</span> servers <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+
+	<span class="token comment">// Create the local PeerConnection object</span>
+	localPeerConnection <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">RTCPeerConnection</span><span class="token punctuation">(</span>servers<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;Created local peer connection object localPeerConnection&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+	<span class="token comment">// Add a handler associated with ICE protocol events</span>
+	localPeerConnection<span class="token punctuation">.</span>onicecandidate <span class="token operator">=</span> gotLocalIceCandidate<span class="token punctuation">;</span>
+
+	<span class="token comment">// Create the remote PeerConnection object</span>
+	remotePeerConnection <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">RTCPeerConnection</span><span class="token punctuation">(</span>servers<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;Created remote peer connection object remotePeerConnection&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+	<span class="token comment">// Add a handler associated with ICE protocol events...</span>
+	remotePeerConnection<span class="token punctuation">.</span>onicecandidate <span class="token operator">=</span> gotRemoteIceCandidate<span class="token punctuation">;</span>
+
+	<span class="token comment">// ...and a second handler to be activated as soon as the remote</span>
+	<span class="token comment">// stream becomes available.</span>
+	remotePeerConnection<span class="token punctuation">.</span>onaddstream <span class="token operator">=</span> gotRemoteStream<span class="token punctuation">;</span>
+
+	<span class="token comment">// Add the local stream (as returned by getUserMedia())</span>
+	<span class="token comment">// to the local PeerConnection.</span>
+	localPeerConnection<span class="token punctuation">.</span><span class="token function">addStream</span><span class="token punctuation">(</span>localStream<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;Added localStream to localPeerConnection&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+	<span class="token comment">// We're all set! Create an Offer to be 'sent' to the callee as soon</span>
+	<span class="token comment">// as the local SDP is ready.</span>
+	localPeerConnection<span class="token punctuation">.</span><span class="token function">createOffer</span><span class="token punctuation">(</span>gotLocalDescription<span class="token punctuation">,</span> onSignalingError<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">function</span> <span class="token function">onSignalingError</span><span class="token punctuation">(</span><span class="token parameter">error</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Failed to create signaling message : '</span> <span class="token operator">+</span> error<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Handler to be called when the 'local' SDP becomes available</span>
+<span class="token keyword">function</span> <span class="token function">gotLocalDescription</span><span class="token punctuation">(</span><span class="token parameter">description</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token comment">// Add the local description to the local PeerConnection</span>
+	localPeerConnection<span class="token punctuation">.</span><span class="token function">setLocalDescription</span><span class="token punctuation">(</span>description<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;Offer from localPeerConnection: \n&quot;</span> <span class="token operator">+</span> description<span class="token punctuation">.</span>sdp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+	<span class="token comment">// ...do the same with the 'pseudoremote' PeerConnection</span>
+	<span class="token comment">// Note: this is the part that will have to be changed if you want</span>
+	<span class="token comment">// the communicating peers to become remote</span>
+	<span class="token comment">// (which calls for the setup of a proper signaling channel)</span>
+	remotePeerConnection<span class="token punctuation">.</span><span class="token function">setRemoteDescription</span><span class="token punctuation">(</span>description<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+	<span class="token comment">// Create the Answer to the received Offer based on the 'local' description</span>
+	remotePeerConnection<span class="token punctuation">.</span><span class="token function">createAnswer</span><span class="token punctuation">(</span>gotRemoteDescription<span class="token punctuation">,</span> onSignalingError<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Handler to be called when the remote SDP becomes available</span>
+<span class="token keyword">function</span> <span class="token function">gotRemoteDescription</span><span class="token punctuation">(</span><span class="token parameter">description</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+	<span class="token comment">// Set the remote description as the local description of the</span>
+	<span class="token comment">// remote PeerConnection.</span>
+	remotePeerConnection<span class="token punctuation">.</span><span class="token function">setLocalDescription</span><span class="token punctuation">(</span>description<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;Answer from remotePeerConnection: \n&quot;</span> <span class="token operator">+</span> description<span class="token punctuation">.</span>sdp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+	<span class="token comment">// Conversely, set the remote description as the remote description of the</span>
+	<span class="token comment">// local PeerConnection</span>
+	localPeerConnection<span class="token punctuation">.</span><span class="token function">setRemoteDescription</span><span class="token punctuation">(</span>description<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Handler to be called when hanging up the call</span>
+<span class="token keyword">function</span> <span class="token function">hangup</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;Ending call&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+	<span class="token comment">// Close PeerConnection(s)</span>
+	localPeerConnection<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	remotePeerConnection<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+	<span class="token comment">// Reset local variables</span>
+	localPeerConnection <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+	remotePeerConnection <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+
+	<span class="token comment">// Disable Hangup button</span>
+	hangupButton<span class="token punctuation">.</span>disabled <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+
+	<span class="token comment">// Enable Call button to allow for new calls to be established</span>
+	callButton<span class="token punctuation">.</span>disabled <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Handler to be called as soon as the remote stream becomes available</span>
+<span class="token keyword">function</span> <span class="token function">gotRemoteStream</span><span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+	<span class="token comment">// Associate the remote video element with the retrieved stream</span>
+	<span class="token keyword">if</span> <span class="token punctuation">(</span>window<span class="token punctuation">.</span><span class="token constant">URL</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		<span class="token comment">// Chrome;</span>
+		remoteVideo<span class="token punctuation">.</span>src <span class="token operator">=</span> window<span class="token punctuation">.</span><span class="token constant">URL</span><span class="token punctuation">.</span><span class="token function">createObjectURL</span><span class="token punctuation">(</span>event<span class="token punctuation">.</span>stream<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+		<span class="token comment">// Firefox;</span>
+		remoteVideo<span class="token punctuation">.</span>src <span class="token operator">=</span> event<span class="token punctuation">.</span>stream<span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>  <span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;Received remote stream&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Handler to be called whenever a new local ICE candidate becomes available</span>
+<span class="token keyword">function</span> <span class="token function">gotLocalIceCandidate</span><span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+	<span class="token keyword">if</span> <span class="token punctuation">(</span>event<span class="token punctuation">.</span>candidate<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		<span class="token comment">// Add candidate to the remote PeerConnection;</span>
+		remotePeerConnection<span class="token punctuation">.</span><span class="token function">addIceCandidate</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">RTCIceCandidate</span><span class="token punctuation">(</span>event<span class="token punctuation">.</span>candidate<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;Local ICE candidate: \n&quot;</span> <span class="token operator">+</span> event<span class="token punctuation">.</span>candidate<span class="token punctuation">.</span>candidate<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Handler to be called whenever a new remote ICE candidate becomes available</span>
+<span class="token keyword">function</span> <span class="token function">gotRemoteIceCandidate</span><span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+	<span class="token keyword">if</span> <span class="token punctuation">(</span>event<span class="token punctuation">.</span>candidate<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		<span class="token comment">// Add candidate to the local PeerConnection;</span>
+		localPeerConnection<span class="token punctuation">.</span><span class="token function">addIceCandidate</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">RTCIceCandidate</span><span class="token punctuation">(</span>event<span class="token punctuation">.</span>candidate<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+		<span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;Remote ICE candidate: \n &quot;</span> <span class="token operator">+</span> event<span class="token punctuation">.</span>candidate<span class="token punctuation">.</span>candidate<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+</code></pre></div><p>为了轻松理解此代码的内容，让我们逐步跟踪我们应用程序的发展。 我们将显示使用 Chrome 和 Firefox 拍摄的屏幕截图，因此您可以欣赏与应用程序外观和两种浏览器提供的开发人员工具相关的差异。</p> <h3 id="starting-the-application"><a href="#starting-the-application" class="header-anchor">#</a> Starting the Application</h3> <p>当用户单击Chrome（图3-2）和Firefox（图3-3）中的“开始”按钮时，会发生以下情况</p> <p><img src="/webrtc-book-cn/assets/img/rcwr_0302.5213df34.png" alt="图3-2"></p> <p>图3-2 在 Chrome 中加载的示例页面</p> <p><img src="/webrtc-book-cn/assets/img/rcwr_0303.351be933.png" alt="图3-3"></p> <p>图3-3 在 Firefox 中加载的示例页面</p> <p>从两个图中都可以看到，浏览器正在征求用户同意访问本地音频和视频设备。 从上一章我们知道，这是由于执行了 <code>getUserMedia()</code> 调用，如下面的 JavaScript 片段所示：</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token comment">// Function associated with clicking on the Start button</span>
+<span class="token comment">// This is the event triggering all other actions</span>
+<span class="token keyword">function</span> <span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;Requesting local stream&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// First of all, disable the Start button on the page</span>
+  startButton<span class="token punctuation">.</span>disabled <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// Get ready to deal with different browser vendors...</span>
+  navigator<span class="token punctuation">.</span>getUserMedia <span class="token operator">=</span> navigator<span class="token punctuation">.</span>getUserMedia <span class="token operator">||</span>
+    navigator<span class="token punctuation">.</span>webkitGetUserMedia <span class="token operator">||</span> navigator<span class="token punctuation">.</span>mozGetUserMedia<span class="token punctuation">;</span>
+
+  <span class="token comment">// Now, call getUserMedia()</span>
+  navigator<span class="token punctuation">.</span><span class="token function">getUserMedia</span><span class="token punctuation">(</span><span class="token punctuation">{</span>audio<span class="token operator">:</span><span class="token boolean">true</span><span class="token punctuation">,</span> video<span class="token operator">:</span><span class="token boolean">true</span><span class="token punctuation">}</span><span class="token punctuation">,</span> successCallback<span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">error</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;navigator.getUserMedia error: &quot;</span><span class="token punctuation">,</span> error<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>一旦用户同意，就会触发 <code>successCallback()</code> 函数。该函数只是将本地流（包含音频和视频轨道）附加到 HTML5 页面中的 <code>localVideo</code> 元素：</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token comment">// Associate the local video element with the retrieved stream</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span>window<span class="token punctuation">.</span><span class="token constant">URL</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  localVideo<span class="token punctuation">.</span>src <span class="token operator">=</span> <span class="token constant">URL</span><span class="token punctuation">.</span><span class="token function">createObjectURL</span><span class="token punctuation">(</span>stream<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+  localVideo<span class="token punctuation">.</span>src <span class="token operator">=</span> stream<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+localStream <span class="token operator">=</span> stream<span class="token punctuation">;</span>
+</code></pre></div><p>图3-4（Chrome）和图3-5（Firefox）中显示了执行回调的效果。</p> <p>Figure 3-4. The example page after user grants consent, in Chrome</p> <p>Figure 3-5. The example page after user grants consent, in Firefox</p> <h3 id="拨打电话-placing-a-call"><a href="#拨打电话-placing-a-call" class="header-anchor">#</a> 拨打电话 <strong>Placing a Call</strong></h3> <p>一旦获得同意，“开始”按钮将被禁用，而“呼叫”按钮将依次变为启用状态。 如果用户单击它，则会触发 <code>call()</code> 函数。 该功能首先执行一些基本的内务处理，例如禁用“呼叫”按钮和启用“挂断”按钮。 然后，对于 Chrome 和 Opera （ Firefox 当前未实现此功能），它将有关可用媒体轨道的一些信息记录到控制台：</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token comment">// Function associated with clicking on the Call button</span>
+<span class="token comment">// This is enabled upon successful completion of the Start button handler</span>
+<span class="token keyword">function</span> <span class="token function">call</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+  <span class="token comment">// First of all, disable the Call button on the page...</span>
+  callButton<span class="token punctuation">.</span>disabled <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// ...and enable the Hangup button</span>
+  hangupButton<span class="token punctuation">.</span>disabled <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+  <span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;Starting call&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// Note that getVideoTracks() and getAudioTracks() are not currently</span>
+  <span class="token comment">// supported in Firefox...</span>
+  <span class="token comment">// ...just use them with Chrome</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>navigator<span class="token punctuation">.</span>webkitGetUserMedia<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+    <span class="token comment">// Log info about video and audio device in use</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>localStream<span class="token punctuation">.</span><span class="token function">getVideoTracks</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>length <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Using video device: '</span> <span class="token operator">+</span> localStream<span class="token punctuation">.</span><span class="token function">getVideoTracks</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>label<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>localStream<span class="token punctuation">.</span><span class="token function">getAudioTracks</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>length <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Using audio device: '</span> <span class="token operator">+</span> localStream<span class="token punctuation">.</span><span class="token function">getAudioTracks</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>label<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+  <span class="token operator">...</span>
+</code></pre></div><div class="custom-block warning"><p class="custom-block-title">注意</p> <p>由 Media Capture and Streams API 中的 <code>MediaStream</code> 构造函数定义的 <code>getVideoTracks()</code> 和 <code>getAudioTracks()</code> 方法，返回一系列 <code>MediaStreamTrack</code> 对象，分别表示流中的视频轨道和音频轨道。</p></div> <p>完成前面的操作后，我们终于进入了代码的核心，即我们第一次遇到 <code>RTCPeerConnection</code> 对象的部分：</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token comment">// Chrome</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span>navigator<span class="token punctuation">.</span>webkitGetUserMedia<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  RTCPeerConnection <span class="token operator">=</span> webkitRTCPeerConnection<span class="token punctuation">;</span>
+
+  <span class="token comment">// Firefox</span>
+<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>navigator<span class="token punctuation">.</span>mozGetUserMedia<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  RTCPeerConnection <span class="token operator">=</span> mozRTCPeerConnection<span class="token punctuation">;</span>
+  RTCSessionDescription <span class="token operator">=</span> mozRTCSessionDescription<span class="token punctuation">;</span>
+  RTCIceCandidate <span class="token operator">=</span> mozRTCIceCandidate<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;RTCPeerConnection object: &quot;</span> <span class="token operator">+</span> RTCPeerConnection<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><p>上面的代码段包含一些 JavaScript 代码，这些代码的唯一目的是检测使用的浏览器的类型，以便为正确的对象提供正确的名称。 您会从代码中注意到，标准 <code>RTCPeerConnection</code> 对象当前在 Chrome（<code>webkitRTCPeerConnection</code>） 和 Firefox（<code>mozRTCPeerConnection</code>） 中都是前缀。 顺便说一下，后一种浏览器也有一种非标准的方式来命名相关的 <code>RTCSessionDescription</code> 和 <code>RTCIceCandidate</code> 对象，它们分别与要协商的会话的描述和 ICE 协议候选地址的表示相关联（请参阅第4章）。</p> <p>一旦确定了（正确的）<code>RTCPeerConnection</code> 对象，我们最终可以实例化它：</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token comment">// This is an optional configuration string, associated with</span>
+<span class="token comment">// NAT traversal setup</span>
+<span class="token keyword">var</span> servers <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Create the local PeerConnection object</span>
+localPeerConnection <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">RTCPeerConnection</span><span class="token punctuation">(</span>servers<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;Created local peer connection object localPeerConnection&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Add a handler associated with ICE protocol events</span>
+localPeerConnection<span class="token punctuation">.</span>onicecandidate <span class="token operator">=</span> gotLocalIceCandidate<span class="token punctuation">;</span>
+</code></pre></div><p>上面的代码片段显示了 <code>RTCPeerConnection</code> 对象是通过使用可选的 server 参数作为输入的构造函数实例化的。 可以使用此参数来正确处理 NAT 遍历问题，如第4章中所述。</p> <hr> <h4 id="rtcpeerconnection"><a href="#rtcpeerconnection" class="header-anchor">#</a> <code>RTCPeerConnection</code></h4> <blockquote><p>调用 <code>new RTCPeerConnection(configuration)</code> 将创建一个 <code>RTCPeerConnection</code> 对象。 该配置具有查找和访问 STUN 和 TURN 服务器的信息（每种类型可以有多个服务器，任何 TURN 服务器也可以用作 STUN 服务器）。 （可选）还可以使用第19页的 <code>MediaConstraints</code> 对象“Media Constraints”。</p> <p>调用 <code>RTCPeerConnection</code> 构造函数时，它还会创建一个 ICE 代理，该 ICE 代理由浏览器直接控制负责 ICE 状态机。 当 <code>IceTransports</code> 约束未设置为 “none” 时，ICE 代理将继续收集候选地址。</p> <p><code>RTCPeerConnection</code> 对象具有两个关联的流集。 表示当前正在发送的流的本地流集（<code>local streams set</code>）和表示通过此 <code>RTCPeerConnection</code> 对象当前接收的流的远程流集（<code>remote streams set</code>）。 创建 <code>RTCPeerConnection</code> 对象时，流集将初始化为空集。</p> <p>这里要注意的有趣事情是，通过定义适当的回调方法，新创建的 <code>PeerConnection</code> 的配置是异步完成的。</p></blockquote> <hr> <div class="custom-block warning"><p class="custom-block-title">注意</p> <p>每当浏览器内部的 ICE 协议机器将新候选者提供给本地对等方时，就会触发 <code>onicecandidate</code> 处理程序。</p></div> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token comment">// Handler to be called whenever a new local ICE candidate becomes available</span>
+<span class="token keyword">function</span> <span class="token function">gotLocalIceCandidate</span><span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>event<span class="token punctuation">.</span>candidate<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// Add candidate to the remote PeerConnection</span>
+    remotePeerConnection<span class="token punctuation">.</span><span class="token function">addIceCandidate</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">RTCIceCandidate</span><span class="token punctuation">(</span>event<span class="token punctuation">.</span>candidate<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;Local ICE candidate: \n&quot;</span> <span class="token operator">+</span> event<span class="token punctuation">.</span>candidate<span class="token punctuation">.</span>candidate<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><div class="custom-block tip"><p class="custom-block-title">译者 注</p> <p><code>if (event.candidate === null) { console.log(&quot;ICE Candidate was null, done&quot;) }</code></p> <p>这个 <code>event.candidate</code> 是可以为空的，当为空时说明 iceServer 已经遍历完成，不会再有新的 candidate 产生</p></div> <div class="custom-block warning"><p class="custom-block-title">注意</p> <p><code>addIceCandidate()</code> 方法向 ICE 代理提供远程候选对象。 除了将其添加到远程描述中之外，只要 <code>IceTransports</code> 约束未设置为 “none”，连通性检查将被发送到新的候选对象。</p></div> <p>该代码片段理所当然地认为远程对等点实际上是在本地运行的，从而避免了通过正确配置的信令通道将有关收集的本地地址的信息发送给另一方的需求。 这就是为什么如果您尝试在两台远程计算机上运行该应用程序将根本无法运行的原因。 在随后的章节中，我们将讨论如何创建这样的信令通道，并使用它来将 ICE 相关（以及会话相关）信息传输到远程方。 目前，我们仅将收集的本地网络可达性信息添加到（本地可用）远程对等连接（<code>remote peer connection</code>）。 显然，在主叫方和被叫方之间切换角色时，同样的道理也适用，即，只要有远程候选者，它们就会被简单地添加到本地对等连接（<code>local peer connection</code>）中：</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token comment">// Create the remote PeerConnection object</span>
+remotePeerConnection <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">RTCPeerConnection</span><span class="token punctuation">(</span>servers<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;Created remote peer connection object remotePeerConnection&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Add a handler associated with ICE protocol events...</span>
+remotePeerConnection<span class="token punctuation">.</span>onicecandidate <span class="token operator">=</span> gotRemoteIceCandidate<span class="token punctuation">;</span>
+
+<span class="token comment">// ...and a second handler to be activated as soon as the remote</span>
+<span class="token comment">// stream becomes available</span>
+remotePeerConnection<span class="token punctuation">.</span>onaddstream <span class="token operator">=</span> gotRemoteStream<span class="token punctuation">;</span>
+</code></pre></div><div class="custom-block warning"><p class="custom-block-title">注意</p> <p>每当远程对等方分别添加或删除 <code>MediaStream</code> 时，都会调用 <code>onaddstream</code> 和 <code>onremovestream</code> 处理函数。这两者仅在执行 <code>setRemoteDescription()</code> 方法时才会被触发。</p></div> <p>上面的代码片段与 <code>onaddstream</code> 处理函数有关，该处理函数的实现在将远程流（一旦可用时）附加到 HTML5 页面的 <code>remoteVideo</code> 元素后进行查找，如下所示：</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token comment">// Handler to be called as soon as the remote stream becomes available</span>
+<span class="token keyword">function</span> <span class="token function">gotRemoteStream</span><span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// Associate the remote video element with the retrieved stream</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>window<span class="token punctuation">.</span><span class="token constant">URL</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// Chrome</span>
+    remoteVideo<span class="token punctuation">.</span>src <span class="token operator">=</span> window<span class="token punctuation">.</span><span class="token constant">URL</span><span class="token punctuation">.</span><span class="token function">createObjectURL</span><span class="token punctuation">(</span>event<span class="token punctuation">.</span>stream<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    <span class="token comment">// Firefox</span>
+    remoteVideo<span class="token punctuation">.</span>src <span class="token operator">=</span> event<span class="token punctuation">.</span>stream<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;Received remote stream&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>回到 <code>Call()</code> 函数，剩下的唯一动作是将本地流添加到本地 <code>PeerConnection</code> 并最终在其上调用 <code>createOffer()</code> 方法：</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token operator">...</span>
+  <span class="token comment">// Add the local stream (as returned by getUserMedia()</span>
+  <span class="token comment">// to the local PeerConnection</span>
+  localPeerConnection<span class="token punctuation">.</span><span class="token function">addStream</span><span class="token punctuation">(</span>localStream<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;Added localStream to localPeerConnection&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// We're all set! Create an Offer to be 'sent' to the callee as soon as</span>
+  <span class="token comment">// the local SDP is ready</span>
+  localPeerConnection<span class="token punctuation">.</span><span class="token function">createOffer</span><span class="token punctuation">(</span>gotLocalDescription<span class="token punctuation">,</span>onSignalingError<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">function</span> <span class="token function">onSignalingError</span><span class="token punctuation">(</span><span class="token parameter">error</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Failed to create signaling message : '</span> <span class="token operator">+</span> error<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><div class="custom-block warning"><p class="custom-block-title">注意</p> <p><code>addStream()</code> 和 <code>removeStream()</code> 方法分别向 <code>RTCPeerConnection</code> 对象添加流和移除流。</p></div> <p><code>createOffer()</code> 方法起着基本作用，因为它要求浏览器正确检查 <code>PeerConnection</code> 的内部状态并生成适当的 <code>RTCSessionDescription</code> 对象，从而启动 “提供/应答（<code>Offer/Answer</code>）” 状态机。</p> <div class="custom-block warning"><p class="custom-block-title">注意</p> <p><code>createOffer()</code> 方法生成一个 <code>SDP Blob</code>，其中包含：</p> <ol><li>具有会话支持的配置 <a href="https://tools.ietf.org/html/rfc3264" target="_blank" rel="noopener noreferrer">RFC3264<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a> 的 <code>offer</code></li> <li>附加（attached）的 <code>localMediaStreams</code> 的描述</li> <li>浏览器支持的 <code>codec/RTP/RTCP</code> 选项</li> <li>ICE 收集的所有候选对象</li> <li>可以提供约束参数以对生成的要约提供附加控制</li></ol></div> <p>当会话描述对应用程序可用时，<code>createOffer()</code> 方法就将调用回调（<code>gotLocalDescription</code>）作为输入。 同样在这种情况下，当会话描述可用时，则本地对等方（local peer）应使用信令信道将其发送给被叫方。 目前，我们将跳过此阶段，并再次假设远程方实际上是本地可到达的一方，这将转换为以下操作：</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token comment">// Handler to be called when the 'local' SDP becomes available</span>
+<span class="token keyword">function</span> <span class="token function">gotLocalDescription</span><span class="token punctuation">(</span><span class="token parameter">description</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+  <span class="token comment">// Add the local description to the local PeerConnection</span>
+  localPeerConnection<span class="token punctuation">.</span><span class="token function">setLocalDescription</span><span class="token punctuation">(</span>description<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;Offer from localPeerConnection: \n&quot;</span> <span class="token operator">+</span> description<span class="token punctuation">.</span>sdp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// ...do the same with the 'pseudoremote' PeerConnection</span>
+  <span class="token comment">// Note: this is the part that will have to be changed if</span>
+  <span class="token comment">// you want the communicating peers to become remote</span>
+  <span class="token comment">// (which calls for the setup of a proper signaling channel)</span>
+  remotePeerConnection<span class="token punctuation">.</span><span class="token function">setRemoteDescription</span><span class="token punctuation">(</span>description<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// Create the Answer to the received Offer based on the 'local' description</span>
+  remotePeerConnection<span class="token punctuation">.</span><span class="token function">createAnswer</span><span class="token punctuation">(</span>gotRemoteDescription<span class="token punctuation">,</span>onSignalingError<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>如上面的注释片段所述，我们在此将检索到的会话描述直接设置为本地对等方的本地描述和远程对等方的远程描述。</p> <div class="custom-block warning"><p class="custom-block-title">注意</p> <p><code>setLocalDescription()</code> 和 <code>setRemoteDescription()</code> 方法指示 <code>RTCPeerConnection</code> 将提供的 <code>RTCSessionDescription</code> 分别应用为本地描述（<code>local description</code>）和远程的 <code>offer</code> 或 <code>answer</code> 。</p></div> <p>然后，我们通过调用远程对等体连接上的 <code>createAnswer()</code> 方法来要求远程对等体应答所提供的会话。 一旦远程浏览器将其自己的会话描述提供给远程对等方，此方法就将要调用的回调（<code>gotRemoteDescription</code>）作为输入参数。 这样的处理程序实际上反映了呼叫方的伴随回调的行为：</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token comment">// Handler to be called when the remote SDP becomes available</span>
+<span class="token keyword">function</span> <span class="token function">gotRemoteDescription</span><span class="token punctuation">(</span><span class="token parameter">description</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+  <span class="token comment">// Set the remote description as the local description of the</span>
+  <span class="token comment">// remote PeerConnection</span>
+  remotePeerConnection<span class="token punctuation">.</span><span class="token function">setLocalDescription</span><span class="token punctuation">(</span>description<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;Answer from remotePeerConnection: \n&quot;</span> <span class="token operator">+</span> description<span class="token punctuation">.</span>sdp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// Conversely, set the remote description as the remote description</span>
+  <span class="token comment">// of the local PeerConnection</span>
+  localPeerConnection<span class="token punctuation">.</span><span class="token function">setRemoteDescription</span><span class="token punctuation">(</span>description<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p><code>createAnswer()</code> 方法使用与远程配置中的参数兼容的会话支持的配置生成 SDP <code>answer</code></p> <p>实际上，可以在浏览器的控制台上跟踪上述整个呼叫流程，如图3-6（Chrome）和图3-7（Firefox）所示。</p> <p><img src="/webrtc-book-cn/assets/img/rcwr_0306.193bf032.png" alt="图3-6"></p> <p>图3-6 Chrome 控制台跟踪两个本地对等方之间的呼叫</p> <p><img src="/webrtc-book-cn/assets/img/rcwr_0307.e70a8b4e.png" alt="图3-7"></p> <p>图3-7 Firefox 控制台跟踪两个本地对等方之间的呼叫</p> <p>这两个快照显示了应用程序已记录的事件序列以及符合SDP格式的会话描述信息。 当我们在第4章中简要介绍会话描述协议时，日志的最后一部分将变得更加清晰。</p> <p>完成上述所有步骤后，我们终于可以在浏览器窗口中看到两个流，如图3-8（Chrome）和图3-9（Firefox）所示。</p> <p>Figure 3-8. Chrome showing local and remote media after a successful call</p> <p>Figure 3-9. Firefox showing local and remote media after a successful call</p> <h3 id="挂断-hanging-up"><a href="#挂断-hanging-up" class="header-anchor">#</a> 挂断 <strong>Hanging Up</strong></h3> <p>通话结束后，用户可以通过单击“挂断”按钮将其删除。 这触发了关联处理程序的执行：</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token comment">// Handler to be called when hanging up the call</span>
+<span class="token keyword">function</span> <span class="token function">hangup</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;Ending call&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// Close PeerConnection(s)</span>
+  localPeerConnection<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  remotePeerConnection<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// Reset local variables</span>
+  localPeerConnection <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+  remotePeerConnection <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// Disable Hangup button</span>
+  hangupButton<span class="token punctuation">.</span>disabled <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// Enable Call button to allow for new calls to be established</span>
+  callButton<span class="token punctuation">.</span>disabled <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>正如我们从快速浏览代码中看到的那样，<code>hangup()</code> 处理程序仅关闭实例化的对等连接并释放资源。 然后，它禁用 “挂断” 按钮并启用 “呼叫” 按钮，从而将设置回滚到我们首次启动应用程序后（即，在 <code>getUserMedia()</code> 调用之后）立即到达的位置。 从中可以发出新的呼叫，并且可以重新开始游戏。 图3-10（Chrome）和图3-11（Firefox）中描述了这种情况。</p> <div class="custom-block warning"><p class="custom-block-title">注意</p> <p><code>close()</code> 方法销毁 <code>RTCPeerConnection</code> ICE 代理，突然结束任何活动的 ICE 处理和任何活动的流，并释放任何相关资源。</p></div> <p>Figure 3-10. Chrome after tearing down a call</p> <p>Figure 3-11. Firefox after tearing down a call</p> <p>请注意，两个窗口中的两个帧是不同的，这说明了一个事实，即使不再有对等连接可用，我们现在仍具有实时本地流和冻结的远程流。 这也在控制台日志中报告。</p> <h2 id="将数据通道添加到本地-peerconnection"><a href="#将数据通道添加到本地-peerconnection" class="header-anchor">#</a> 将数据通道添加到本地 <code>PeerConnection</code></h2> <p>点对点数据 API 使 Web应用程序 可以以点对点方式发送和接收通用应用程序数据。 用于发送和接收数据的 API 汲取了 WebSocket 的启发。</p> <p>在本节中，我们将展示如何将 <code>DataChannel</code> 添加到 <code>PeerConnection</code>。 再次，我们将坚持本地观点，并忽略信号问题。 让我们从 例3-2 中的 HTML5 页面开始。</p> <p>例3-2 本地数据通道用法示例</p> <div class="language-html extra-class"><pre class="language-html"><code><span class="token doctype">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;
+    &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">&gt;</span></span>DataChannel simple example<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>textarea</span> <span class="token attr-name">rows</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>5<span class="token punctuation">&quot;</span></span> <span class="token attr-name">cols</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>50<span class="token punctuation">&quot;</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>dataChannelSend<span class="token punctuation">&quot;</span></span> <span class="token attr-name">disabled</span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>1: Press Start; 2: Enter text; 3: Press Send.<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>textarea</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>textarea</span> <span class="token attr-name">rows</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>5<span class="token punctuation">&quot;</span></span> <span class="token attr-name">cols</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>50<span class="token punctuation">&quot;</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>dataChannelReceive<span class="token punctuation">&quot;</span></span> <span class="token attr-name">disabled</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>textarea</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>buttons<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>startButton<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>Start<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>sendButton<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>Send<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>closeButton<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>Stop<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>js/dataChannel.js<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div><p>该页面（在 Chrome 中其外观如 图3-12 所示）仅包含两个并排的文本区域，分别与从发件人的数据通道发送的数据和另一方在另一端接收的数据相关联 接收者的数据通道。 三个按钮用于编排应用程序：（1）在启动时按下的“开始”按钮； （2）需要在数据通道上流式传输新数据时使用的发送按钮； （3）关闭按钮，可用于重置应用程序并将其恢复到原始状态。</p> <p><img src="/webrtc-book-cn/assets/img/rcwr_0312.41062405.png" alt="图3-12"></p> <p>图3-12 Chrome 中加载的 <code>DataChannel</code> 示例页面</p> <p>像往常一样，此应用程序的核心行为是在嵌入式 JavaScript 文件 <code>dataChannel.js</code> 中实现的，其布局如下：</p> <div class="language-js extra-class"><pre class="language-js"><code>
+<span class="token comment">//JavaScript variables associated with send and receive channels</span>
+<span class="token keyword">var</span> sendChannel<span class="token punctuation">,</span> receiveChannel<span class="token punctuation">;</span>
+
+<span class="token comment">//JavaScript variables associated with demo buttons</span>
+<span class="token keyword">var</span> startButton <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">&quot;startButton&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> sendButton <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">&quot;sendButton&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> closeButton <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">&quot;closeButton&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">//On startup, just the Start button must be enabled</span>
+startButton<span class="token punctuation">.</span>disabled <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+sendButton<span class="token punctuation">.</span>disabled <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+closeButton<span class="token punctuation">.</span>disabled <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+
+<span class="token comment">//Associate handlers with buttons</span>
+startButton<span class="token punctuation">.</span>onclick <span class="token operator">=</span> createConnection<span class="token punctuation">;</span>
+sendButton<span class="token punctuation">.</span>onclick <span class="token operator">=</span> sendData<span class="token punctuation">;</span>
+closeButton<span class="token punctuation">.</span>onclick <span class="token operator">=</span> closeDataChannels<span class="token punctuation">;</span>
+
+<span class="token comment">//Utility function for logging information to the JavaScript console</span>
+<span class="token keyword">function</span> <span class="token function">log</span><span class="token punctuation">(</span><span class="token parameter">text</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;At time: &quot;</span> <span class="token operator">+</span> <span class="token punctuation">(</span>performance<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toFixed</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span> <span class="token operator">+</span><span class="token string">&quot; --&gt; &quot;</span> <span class="token operator">+</span> text<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">function</span> <span class="token function">createConnection</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+  <span class="token comment">// Chrome</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>navigator<span class="token punctuation">.</span>webkitGetUserMedia<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    RTCPeerConnection <span class="token operator">=</span> webkitRTCPeerConnection<span class="token punctuation">;</span>
+
+    <span class="token comment">// Firefox</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>navigator<span class="token punctuation">.</span>mozGetUserMedia<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    RTCPeerConnection <span class="token operator">=</span> mozRTCPeerConnection<span class="token punctuation">;</span>
+    RTCSessionDescription <span class="token operator">=</span> mozRTCSessionDescription<span class="token punctuation">;</span>
+    RTCIceCandidate <span class="token operator">=</span> mozRTCIceCandidate<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;RTCPeerConnection object: &quot;</span> <span class="token operator">+</span> RTCPeerConnection<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// This is an optional configuration string</span>
+  <span class="token comment">// associated with NAT traversal setup</span>
+  <span class="token keyword">var</span> servers <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// JavaScript variable associated with proper</span>
+  <span class="token comment">// configuration of an RTCPeerConnection object:</span>
+  <span class="token comment">// use DTLS/SRTP</span>
+  <span class="token keyword">var</span> pc_constraints <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token string">'optional'</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>
+      <span class="token string">'DtlsSrtpKeyAgreement'</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+      <span class="token comment">// Create the local PeerConnection object...</span>
+      <span class="token comment">// ...with data channelslocalPeerConnection = new RTCPeerConnection(servers,pc_constraints);</span>
+      <span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;Created local peer connection object, with Data Channel&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">try</span> <span class="token punctuation">{</span>
+
+        <span class="token comment">// Note: SCTP-based reliable DataChannels supported</span>
+        <span class="token comment">// in Chrome 29+ !</span>
+        <span class="token comment">// use {reliable: false} if you have an older version of Chrome</span>
+        sendChannel <span class="token operator">=</span> localPeerConnection<span class="token punctuation">.</span><span class="token function">createDataChannel</span><span class="token punctuation">(</span> <span class="token string">&quot;sendDataChannel&quot;</span><span class="token punctuation">,</span><span class="token punctuation">{</span>reliable<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Created reliable send data channel'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">'Failed to create data channel!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'createDataChannel() failed with following message: '</span> <span class="token operator">+</span> e<span class="token punctuation">.</span>message<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      <span class="token comment">// Associate handlers with peer connection ICE events</span>
+      localPeerConnection<span class="token punctuation">.</span>onicecandidate <span class="token operator">=</span> gotLocalCandidate<span class="token punctuation">;</span>
+
+      <span class="token comment">// Associate handlers with data channel events</span>
+      sendChannel<span class="token punctuation">.</span>onopen <span class="token operator">=</span> handleSendChannelStateChange<span class="token punctuation">;</span>
+      sendChannel<span class="token punctuation">.</span>onclose <span class="token operator">=</span> handleSendChannelStateChange<span class="token punctuation">;</span>
+
+      <span class="token comment">// Mimic a remote peer connection</span>
+      window<span class="token punctuation">.</span>remotePeerConnection <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">RTCPeerConnection</span><span class="token punctuation">(</span>servers<span class="token punctuation">,</span> pc_constraints<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Created remote peer connection object, with DataChannel'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+      <span class="token comment">// Associate handlers with peer connection ICE events...</span>
+      remotePeerConnection<span class="token punctuation">.</span>onicecandidate <span class="token operator">=</span> gotRemoteIceCandidate<span class="token punctuation">;</span>
+
+      <span class="token comment">// ...and data channel creation event</span>
+      remotePeerConnection<span class="token punctuation">.</span>ondatachannel <span class="token operator">=</span> gotReceiveChannel<span class="token punctuation">;</span>
+
+      <span class="token comment">// We're all set! Let's start negotiating a session...</span>
+      localPeerConnection<span class="token punctuation">.</span><span class="token function">createOffer</span><span class="token punctuation">(</span>gotLocalDescription<span class="token punctuation">,</span>onSignalingError<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+      <span class="token comment">// Disable Start button and enable Close button</span>
+      startButton<span class="token punctuation">.</span>disabled <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+      closeButton<span class="token punctuation">.</span>disabled <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">function</span> <span class="token function">onSignalingError</span><span class="token punctuation">(</span><span class="token parameter">error</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Failed to create signaling message : '</span> <span class="token operator">+</span> error<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Handler for sending data to the remote peer</span>
+<span class="token keyword">function</span> <span class="token function">sendData</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+  <span class="token keyword">var</span> data <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">&quot;dataChannelSend&quot;</span><span class="token punctuation">)</span><span class="token punctuation">.</span>value<span class="token punctuation">;</span>
+  sendChannel<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Sent data: '</span> <span class="token operator">+</span> data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Close button handler</span>
+<span class="token keyword">function</span> <span class="token function">closeDataChannels</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+  <span class="token comment">// Close channels...</span>
+  <span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Closing data channels'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  sendChannel<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Closed data channel with label: '</span> <span class="token operator">+</span> sendChannel<span class="token punctuation">.</span>label<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  receiveChannel<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Closed data channel with label: '</span> <span class="token operator">+</span> receiveChannel<span class="token punctuation">.</span>label<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// Close peer connections</span>
+  localPeerConnection<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  remotePeerConnection<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// Reset local variables</span>
+  localPeerConnection <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+  remotePeerConnection <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+  <span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Closed peer connections'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// Rollback to the initial setup of the HTML5 page</span>
+  startButton<span class="token punctuation">.</span>disabled <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+  sendButton<span class="token punctuation">.</span>disabled <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+  closeButton<span class="token punctuation">.</span>disabled <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+  dataChannelSend<span class="token punctuation">.</span>value <span class="token operator">=</span> <span class="token string">&quot;&quot;</span><span class="token punctuation">;</span>
+  dataChannelReceive<span class="token punctuation">.</span>value <span class="token operator">=</span> <span class="token string">&quot;&quot;</span><span class="token punctuation">;</span>
+  dataChannelSend<span class="token punctuation">.</span>disabled <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+  dataChannelSend<span class="token punctuation">.</span>placeholder <span class="token operator">=</span> <span class="token string">&quot;1: Press Start; 2: Enter text; 3: Press Send.&quot;</span><span class="token punctuation">;</span>
+
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Handler to be called as soon as the local SDP is made available to</span>
+<span class="token comment">// the application</span>
+<span class="token keyword">function</span> <span class="token function">gotLocalDescription</span><span class="token punctuation">(</span><span class="token parameter">desc</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+  <span class="token comment">// Set local SDP as the right (local/remote) description for both local</span>
+  <span class="token comment">// and remote parties</span>
+  localPeerConnection<span class="token punctuation">.</span><span class="token function">setLocalDescription</span><span class="token punctuation">(</span>desc<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'localPeerConnection\'s SDP: \n'</span> <span class="token operator">+</span> desc<span class="token punctuation">.</span>sdp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  remotePeerConnection<span class="token punctuation">.</span><span class="token function">setRemoteDescription</span><span class="token punctuation">(</span>desc<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// Create answer from the remote party, based on the local SDP</span>
+  remotePeerConnection<span class="token punctuation">.</span><span class="token function">createAnswer</span><span class="token punctuation">(</span>gotRemoteDescription<span class="token punctuation">,</span>onSignalingError<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Handler to be called as soon as the remote SDP is made available to</span>
+<span class="token comment">// the application</span>
+<span class="token keyword">function</span> <span class="token function">gotRemoteDescription</span><span class="token punctuation">(</span><span class="token parameter">desc</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+  <span class="token comment">// Set remote SDP as the right (remote/local) description for both local</span>
+  <span class="token comment">// and remote parties</span>
+  remotePeerConnection<span class="token punctuation">.</span><span class="token function">setLocalDescription</span><span class="token punctuation">(</span>desc<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Answer from remotePeerConnection\'s SDP: \n'</span> <span class="token operator">+</span> desc<span class="token punctuation">.</span>sdp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  localPeerConnection<span class="token punctuation">.</span><span class="token function">setRemoteDescription</span><span class="token punctuation">(</span>desc<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Handler to be called whenever a new local ICE candidate becomes available</span>
+<span class="token keyword">function</span> <span class="token function">gotLocalCandidate</span><span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'local ice callback'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>event<span class="token punctuation">.</span>candidate<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    remotePeerConnection<span class="token punctuation">.</span><span class="token function">addIceCandidate</span><span class="token punctuation">(</span>event<span class="token punctuation">.</span>candidate<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Local ICE candidate: \n'</span> <span class="token operator">+</span> event<span class="token punctuation">.</span>candidate<span class="token punctuation">.</span>candidate<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Handler to be called whenever a new remote ICE candidate becomes available</span>
+<span class="token keyword">function</span> <span class="token function">gotRemoteIceCandidate</span><span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'remote ice callback'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>event<span class="token punctuation">.</span>candidate<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    localPeerConnection<span class="token punctuation">.</span><span class="token function">addIceCandidate</span><span class="token punctuation">(</span>event<span class="token punctuation">.</span>candidate<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Remote ICE candidate: \n '</span> <span class="token operator">+</span> event<span class="token punctuation">.</span>candidate<span class="token punctuation">.</span>candidate<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Handler associated with the management of remote peer connection's</span>
+<span class="token comment">// data channel events</span>
+<span class="token keyword">function</span> <span class="token function">gotReceiveChannel</span><span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Receive Channel Callback: event --&gt; '</span> <span class="token operator">+</span> event<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// Retrieve channel information</span>
+  receiveChannel <span class="token operator">=</span> event<span class="token punctuation">.</span>channel<span class="token punctuation">;</span>
+
+  <span class="token comment">// Set handlers for the following events:</span>
+  <span class="token comment">// (i) open; (ii) message; (iii) close</span>
+  receiveChannel<span class="token punctuation">.</span>onopen <span class="token operator">=</span> handleReceiveChannelStateChange<span class="token punctuation">;</span>
+  receiveChannel<span class="token punctuation">.</span>onmessage <span class="token operator">=</span> handleMessage<span class="token punctuation">;</span>
+  receiveChannel<span class="token punctuation">.</span>onclose <span class="token operator">=</span> handleReceiveChannelStateChange<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Message event handler</span>
+<span class="token keyword">function</span> <span class="token function">handleMessage</span><span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Received message: '</span> <span class="token operator">+</span> event<span class="token punctuation">.</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// Show message in the HTML5 page</span>
+  document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">&quot;dataChannelReceive&quot;</span><span class="token punctuation">)</span><span class="token punctuation">.</span>value <span class="token operator">=</span> event<span class="token punctuation">.</span>data<span class="token punctuation">;</span>
+
+  <span class="token comment">// Clean 'Send' text area in the HTML page</span>
+  document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">&quot;dataChannelSend&quot;</span><span class="token punctuation">)</span><span class="token punctuation">.</span>value <span class="token operator">=</span> <span class="token string">''</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Handler for either 'open' or 'close' events on sender's data channel</span>
+<span class="token keyword">function</span> <span class="token function">handleSendChannelStateChange</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">var</span> readyState <span class="token operator">=</span> sendChannel<span class="token punctuation">.</span>readyState<span class="token punctuation">;</span>
+  <span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Send channel state is: '</span> <span class="token operator">+</span> readyState<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>readyState <span class="token operator">==</span> <span class="token string">&quot;open&quot;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+    <span class="token comment">// Enable 'Send' text area and set focus on it</span>
+    dataChannelSend<span class="token punctuation">.</span>disabled <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    dataChannelSend<span class="token punctuation">.</span><span class="token function">focus</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    dataChannelSend<span class="token punctuation">.</span>placeholder <span class="token operator">=</span> <span class="token string">&quot;&quot;</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// Enable both Send and Close buttons</span>
+    sendButton<span class="token punctuation">.</span>disabled <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    closeButton<span class="token punctuation">.</span>disabled <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+
+    <span class="token comment">// event MUST be 'close', if we are here...</span>
+    <span class="token comment">// Disable 'Send' text area</span>
+    dataChannelSend<span class="token punctuation">.</span>disabled <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// Disable both Send and Close buttons</span>
+    sendButton<span class="token punctuation">.</span>disabled <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    closeButton<span class="token punctuation">.</span>disabled <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Handler for either 'open' or 'close' events on receiver's data channel</span>
+<span class="token keyword">function</span> <span class="token function">handleReceiveChannelStateChange</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">var</span> readyState <span class="token operator">=</span> receiveChannel<span class="token punctuation">.</span>readyState<span class="token punctuation">;</span>
+  <span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Receive channel state is: '</span> <span class="token operator">+</span> readyState<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>与前面的示例一样，我们将通过逐步跟踪应用程序的生命周期来分析其行为。 我们将跳过所有已经说明的部分。 这使我们可以只关注代码中引入的新功能。</p> <h3 id="启动应用程序"><a href="#启动应用程序" class="header-anchor">#</a> 启动应用程序</h3> <p>当用户单击页面中的 “开始” 按钮时，幕后会发生许多事件。 即，<code>createConnection()</code> 处理程序已激活。 这样的处理程序可以创建本地和（伪）远程对等连接，其方式与前面示例中的方法大致相同。 区别在于，这次，对等连接还配备了用于通用数据流的数据通道：</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token comment">// JavaScript variable associated with proper</span>
+<span class="token comment">// configuration of an RTCPeerConnection object:</span>
+<span class="token comment">// use DTLS/SRTP</span>
+<span class="token keyword">var</span> pc_constraints <span class="token operator">=</span> <span class="token punctuation">{</span>
+	<span class="token string">'optional'</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+		<span class="token punctuation">{</span><span class="token string">'DtlsSrtpKeyAgreement'</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">}</span>
+	<span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Create the local PeerConnection object...</span>
+<span class="token comment">// ...with data channels</span>
+localPeerConnection <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">RTCPeerConnection</span><span class="token punctuation">(</span>servers<span class="token punctuation">,</span>pc_constraints<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;Created local peer connection object, with DataChannel&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+
+	<span class="token comment">// Note: SCTP-based reliable data channels supported</span>
+	<span class="token comment">// in Chrome 29+ !</span>
+	<span class="token comment">// use {reliable: false} if you have an older version of Chrome</span>
+	sendChannel <span class="token operator">=</span> localPeerConnection<span class="token punctuation">.</span><span class="token function">createDataChannel</span><span class="token punctuation">(</span><span class="token string">&quot;sendDataChannel&quot;</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>reliable<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+	<span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Created reliable send data channel'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">'Failed to create data channel!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'createDataChannel() failed with following message: '</span> <span class="token operator">+</span> e<span class="token punctuation">.</span>message<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>上面的代码片段显示了如何通过调用 <code>createDataChannel()</code> 方法将 <code>DataChannel</code> 添加到现有的 <code>PeerConnection</code> 中。 请注意，这是特定于浏览器的功能，而不是标准化的约束。</p> <div class="custom-block warning"><p class="custom-block-title">WARNING</p> <p>WebRTC API 没有使用 <code>DataChannel</code> API 定义约束的使用。 相反，它定义了所谓的 <code>RTCDataChannel Init</code> 字典（表3-1）的用法。</p></div> <p>通过调用 <code>createDataChannel(&quot;sendDataChannel&quot;, {reliable: true});</code> 方法，数据通道本身实际上已添加到新实例化的对等连接中。 代码显示这种数据通道可能不可靠或可靠。通过正确使用 SCTP 协议可以保证可靠性，并且该功能最初仅在 Firefox 中可用。 从 Chrome 版本29开始，才在 Chrome 中实现。</p> <hr> <blockquote><h4 id="createdatachannel"><a href="#createdatachannel" class="header-anchor">#</a> createDataChannel</h4> <p><code>createDataChannel()</code> 方法使用给定标签创建一个新的 <code>RTCDataChannel</code> 对象。 <code>RTCDataChannel</code> 初始化字典（表3-1）可用于配置基础通道的属性，例如数据可靠性。</p> <p><code>RTCDataChannel</code> 接口表示两个对等点之间的双向数据通道。 每个数据通道都有一个关联的基础数据传输，用于将数据传输到另一个对等方。 创建通道后，对等方将配置基础数据传输的属性（表3-1）。 创建通道后，通道的属性无法更改。 对等方之间的实际 有线 (wire) 协议为 SCTP （请参见第8页的“数据通道”）。</p> <p>可以将 <code>RTCDataChannel</code> 配置为在不同的可靠性模式下运行。 可靠的通道可确保通过重传将数据传递到另一个对等方。 不可靠的通道配置为限制重传次数 (<code>maxRetransmits</code>) 或设置允许重传的时间 (<code>maxRetransmitTime</code>)。 这些属性不能同时使用，尝试这样做会导致错误。 不设置任何这些属性会导致创建可靠的通道。</p></blockquote> <hr> <p>表3-1 <code>RTCDataChannel Init</code> 字典成员</p> <table><thead><tr><th>Member</th> <th>Type</th> <th>Description</th></tr></thead> <tbody><tr><td>id</td> <td>unsigned short</td> <td>Overrides the default selection of id for this channel.</td></tr> <tr><td>maxRetransmits</td> <td>unsigned short</td> <td>Limits the number of times a channel will retransmit data if not successfully delivered.</td></tr> <tr><td>maxRetransmitTime</td> <td>unsigned short</td> <td>Limits the time during which the channel will retransmit data if not successfully delivered.</td></tr> <tr><td>negotiated</td> <td>boolean</td> <td>The default value of <code>false</code> tells the user agent to announce the channel in-band andinstruct the other peer to dispatch a corresponding <code>RTCDataChannel</code> object.</td></tr> <tr><td>ordered</td> <td>boolean</td> <td>If set to <code>false</code>, data are allowed to be delivered out of order. The default value of trueguarantees that data will be delivered in order.</td></tr> <tr><td>protocol</td> <td>DOMString</td> <td>Subprotocol name used for this channel</td></tr></tbody></table> <p>本地数据通道事件（onopen和onclose）通过适当的处理程序进行处理，如下所示：</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token comment">// Associate handlers with send data channel events</span>
+sendChannel<span class="token punctuation">.</span>onopen <span class="token operator">=</span> handleSendChannelStateChange<span class="token punctuation">;</span>
+sendChannel<span class="token punctuation">.</span>onclose <span class="token operator">=</span> handleSendChannelStateChange<span class="token punctuation">;</span>
+</code></pre></div><p>至于远程数据通道 (<code>ondatachannel</code>)，它也通过事件和相关的回调进行改变：</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code>remotePeerConnection<span class="token punctuation">.</span>ondatachannel <span class="token operator">=</span> gotReceiveChannel<span class="token punctuation">;</span>
+</code></pre></div><p>伪信令阶段成功完成后，实际上会激活此回调。 通过调用 <code>localPeerConnection.createOffer(gotLocalDescription, onSignalingError)</code> 触发此阶段，该阶段将启动上述调用流程，其中涉及 ICE 协议候选者的收集以及会话描述的交换。</p> <p>图3-13 和 图3-14 中 JavaScript 控制台日志上的注释显示了引导过程的第一阶段，该过程分别在 Chrome 和 Firefox 中进行。 从日志中我们可以看到，在创建本地和远程对等连接之后，<code>Offer/Answer</code> 阶段即开始。</p> <p><img src="/webrtc-book-cn/assets/img/rcwr_0313.9ec9a074.png" alt="图3-13"></p> <p>图3-13 在 Chrome 中启动数据通道应用程序</p> <p><img src="/webrtc-book-cn/assets/img/rcwr_0314.b41a5a5a.png" alt="图3-14"></p> <p>图3-14 在 Firefox 中启动数据通道应用程序</p> <p>特别注意，一旦在 <code>gotLocalDescription()</code> 处理程序中为应用程序提供了本地 SDP，就准备好 <code>Answer</code> ：</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">function</span> <span class="token function">gotLocalDescription</span><span class="token punctuation">(</span><span class="token parameter">desc</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// Set local SDP as the right (local/remote) description for both local</span>
+  <span class="token comment">// and remote parties</span>
+  localPeerConnection<span class="token punctuation">.</span><span class="token function">setLocalDescription</span><span class="token punctuation">(</span>desc<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'localPeerConnection\'s SDP: \n'</span> <span class="token operator">+</span> desc<span class="token punctuation">.</span>sdp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  remotePeerConnection<span class="token punctuation">.</span><span class="token function">setRemoteDescription</span><span class="token punctuation">(</span>desc<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// Create answer from the remote party, based on the local SDP</span>
+  remotePeerConnection<span class="token punctuation">.</span><span class="token function">createAnswer</span><span class="token punctuation">(</span>gotRemoteDescription<span class="token punctuation">,</span>onSignalingError<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>数据通道状态更改分别通过 <code>handleSendChannelStateChange()</code> 和 <code>handleReceiveChannelStateChange()</code> 事件处理程序处理。 接收到打开事件后，前一个功能将准备HTML5页面，以便在发送者的文本区域内进行编辑，同时启用 “发送” 和 “关闭” 按钮：</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">if</span> <span class="token punctuation">(</span>readyState <span class="token operator">==</span> <span class="token string">&quot;open&quot;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// Enable 'Send' text area and set focus on it</span>
+
+  dataChannelSend<span class="token punctuation">.</span>disabled <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+  dataChannelSend<span class="token punctuation">.</span><span class="token function">focus</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  dataChannelSend<span class="token punctuation">.</span>placeholder <span class="token operator">=</span> <span class="token string">&quot;&quot;</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// Enable both Send and Close buttons</span>
+  sendButton<span class="token punctuation">.</span>disabled <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+  closeButton<span class="token punctuation">.</span>disabled <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token operator">...</span>
+</code></pre></div><p>在接收方，状态更改处理程序仅将信息记录到 JavaScript 控制台：</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">function</span> <span class="token function">handleReceiveChannelStateChange</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">var</span> readyState <span class="token operator">=</span> receiveChannel<span class="token punctuation">.</span>readyState<span class="token punctuation">;</span>
+  <span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Receive channel state is: '</span> <span class="token operator">+</span> readyState<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>图3-15（Chrome）和图3-16（Firefox）中的快照在引导过程结束时显示了应用程序的状态。</p> <p><img src="/webrtc-book-cn/assets/img/rcwr_0315.273402aa.png" alt="图3-15"></p> <p>图3-15 启动后，Chrome 中的数据通道应用程序</p> <p><img src="/webrtc-book-cn/assets/img/rcwr_0316.95dafab8.png" alt="图3-16"></p> <p>图3-16 启动后，Firefox 中的数据通道应用程序</p> <h3 id="流文本穿过-data-channel"><a href="#流文本穿过-data-channel" class="header-anchor">#</a> 流文本穿过 Data Channel</h3> <p>一旦数据通道准备就绪，我们最终可以使用它在发送方和接收方之间传输信息。 实际上，用户可以使用 <code>sendData()</code> 处理程序在发件人的文本区域内编辑一条消息，然后单击 “发送” 按钮，以便在已实例化的数据通道上流式传输此类信息：</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">function</span> <span class="token function">sendData</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">var</span> data <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">&quot;dataChannelSend&quot;</span><span class="token punctuation">)</span><span class="token punctuation">.</span>value<span class="token punctuation">;</span>
+  sendChannel<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Sent data: '</span> <span class="token operator">+</span> data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><div class="custom-block warning"><p class="custom-block-title">WARNING</p> <p><code>send()</code> 方法尝试在通道的基础数据传输上发送数据</p></div> <p>一旦有新数据到达接收器，<code>handleMessage()</code> 处理函数就会被调用。 这样的处理程序首先在接收者的文本区域内打印收到的消息，然后重置发送者的编辑框：</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">function</span> <span class="token function">handleMessage</span><span class="token punctuation">(</span><span class="token parameter">event</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Received message: '</span> <span class="token operator">+</span> event<span class="token punctuation">.</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// Show message in the HTML5 page</span>
+  document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">&quot;dataChannelReceive&quot;</span><span class="token punctuation">)</span><span class="token punctuation">.</span>value <span class="token operator">=</span> event<span class="token punctuation">.</span>data<span class="token punctuation">;</span>
+
+  <span class="token comment">// Clean 'Send' text area in the HTML page</span>
+  document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">&quot;dataChannelSend&quot;</span><span class="token punctuation">)</span><span class="token punctuation">.</span>value <span class="token operator">=</span> <span class="token string">''</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>图3-17 和 图3-18 分别显示了在 Chrome 和 Firefox 中通过数据通道传输消息之前应用程序的状态。</p> <p>同样，图3-19（Chrome）和 图3-20（Firefox）在 HTML 页面中报告消息接收和相关操作。</p> <p><img src="/webrtc-book-cn/assets/img/rcwr_0317.201ca8b1.png" alt="图3-17"></p> <p>图3-17 准备在 Chrome 中的数据通道流式传输消息</p> <p><img src="/webrtc-book-cn/assets/img/rcwr_0318.2de4d4c9.png" alt="图3-18"></p> <p>图3-18 准备在 Firefox 中的数据通道流式传输消息</p> <p><img src="/webrtc-book-cn/assets/img/rcwr_0319.18b1c9d2.png" alt="图3-19"></p> <p>图3-19 从 Chrome 的数据通道接收消息</p> <p><img src="/webrtc-book-cn/assets/img/rcwr_0320.7d846402.png" alt="图3-20"></p> <p>图3-20 从 Firefox 中的数据通道接收消息</p> <h3 id="关闭应用"><a href="#关闭应用" class="header-anchor">#</a> 关闭应用</h3> <p>完成数据传输后，用户可以单击 “关闭” 按钮以：</p> <ul><li>关闭 data channels:</li></ul> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">function</span> <span class="token function">closeDataChannels</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// Close channels...</span>
+  <span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Closing data channels'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  sendChannel<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Closed data channel with label: '</span> <span class="token operator">+</span> sendChannel<span class="token punctuation">.</span>label<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  receiveChannel<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Closed data channel with label: '</span> <span class="token operator">+</span> receiveChannel<span class="token punctuation">.</span>label<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token operator">...</span>
+</code></pre></div><div class="custom-block warning"><p class="custom-block-title">WARNING</p> <p><code>close()</code> 方法尝试关闭通道。</p></div> <ul><li>关闭 peer connections:</li></ul> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token comment">// Close peer connections</span>
+localPeerConnection<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+remotePeerConnection<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// Reset local variables</span>
+localPeerConnection <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+remotePeerConnection <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+<span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Closed peer connections'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><ul><li>Reset the application:</li></ul> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token operator">...</span>
+  <span class="token comment">// Rollback to the initial setup of the HTML5 page</span>
+  startButton<span class="token punctuation">.</span>disabled <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+  sendButton<span class="token punctuation">.</span>disabled <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+  closeButton<span class="token punctuation">.</span>disabled <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+  dataChannelSend<span class="token punctuation">.</span>value <span class="token operator">=</span> <span class="token string">&quot;&quot;</span><span class="token punctuation">;</span>
+  dataChannelReceive<span class="token punctuation">.</span>value <span class="token operator">=</span> <span class="token string">&quot;&quot;</span><span class="token punctuation">;</span>
+  dataChannelSend<span class="token punctuation">.</span>disabled <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+  dataChannelSend<span class="token punctuation">.</span>placeholder <span class="token operator">=</span> <span class="token string">&quot;1: Press Start; 2: Enter text; 3: Press Send.&quot;</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>通过查看 图3-21（Chrome）和 图3-22（Firefox）中的 HTML 页面和 JavaScript 控制台，读者可以体会到执行此代码的效果。</p> <p><img src="/webrtc-book-cn/assets/img/rcwr_0321.9c83381f.png" alt="图3-21"></p> <p>图3-21 在 Chrome 中关闭频道并重置应用程序</p> <p><img src="/webrtc-book-cn/assets/img/rcwr_0322.f3c8b297.png" alt="图3-22"></p> <p>图3-22 在 Firefox 中关闭频道并重置应用程序</p></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/webrtc-book-cn/02_handling-media-in-the-browser.html" class="prev">
+        第2章 处理浏览器中的媒体
+      </a></span> <span class="next"><a href="/webrtc-book-cn/04_the-need-for-a-signaling-channel.html">
+        第4章 需要信令通道
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/webrtc-book-cn/assets/js/app.d61fefb3.js" defer></script><script src="/webrtc-book-cn/assets/js/2.68e3a1af.js" defer></script><script src="/webrtc-book-cn/assets/js/5.01c71c81.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>WebRTC 实时通信</title>
+    <meta name="description" content="中文版 《 Real-Time Communication with WebRTC 》">
+    <meta name="generator" content="VuePress 1.4.0">
+    
+    
+    <link rel="preload" href="/webrtc-book-cn/assets/css/0.styles.4fb15f60.css" as="style"><link rel="preload" href="/webrtc-book-cn/assets/js/app.d61fefb3.js" as="script"><link rel="preload" href="/webrtc-book-cn/assets/js/2.68e3a1af.js" as="script"><link rel="preload" href="/webrtc-book-cn/assets/js/15.47d07794.js" as="script"><link rel="prefetch" href="/webrtc-book-cn/assets/js/10.a89ec158.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/11.b91f01ff.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/12.6fd57a5b.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/13.d4881447.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/14.fa704c2e.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/16.0f08ae19.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/3.9415203d.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/4.020bda45.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/5.01c71c81.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/6.870a9ffe.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/7.dfa8e81e.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/8.1c5fde37.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/9.aceaace1.js">
+    <link rel="stylesheet" href="/webrtc-book-cn/assets/css/0.styles.4fb15f60.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/webrtc-book-cn/" class="home-link router-link-active"><!----> <span class="site-name">WebRTC 实时通信</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/webrtc-book-cn/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><a href="https://t.me/webrtc_cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Telegram
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="https://github.com/a-wing/webrtc-book-cn/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/webrtc-book-cn/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><a href="https://t.me/webrtc_cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Telegram
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="https://github.com/a-wing/webrtc-book-cn/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/webrtc-book-cn/" class="sidebar-link">关于</a></li><li><a href="/webrtc-book-cn/preface.html" class="active sidebar-link">前言</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/webrtc-book-cn/preface.html#章节简介" class="sidebar-link">章节简介</a></li><li class="sidebar-sub-header"><a href="/webrtc-book-cn/preface.html#本书中使用的约定" class="sidebar-link">本书中使用的约定</a></li><li class="sidebar-sub-header"><a href="/webrtc-book-cn/preface.html#使用代码示例" class="sidebar-link">使用代码示例</a></li></ul></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>目录</span> <span class="arrow right"></span></p> <!----></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="前言"><a href="#前言" class="header-anchor">#</a> 前言</h1> <p>Web 实时通信（WebRTC）是一种新标准，使浏览器可以使用点对点的体系结构进行实时通信。
+它是关于 HTML5 浏览器之间安全的，基于同意的音频/视频（和数据）点对点通信。
+这是 Web 应用程序世界的一次颠覆性发展，因为它使 Web 开发人员首次无需专有插件即可构建实时多媒体应用程序。</p> <p>WebRTC 汇集了两个历史上分开的阵营，它们分别与一方面的电信和另一方面的 Web 开发相关。
+那些不是来自电信界的人可能会因要了解以了解与 Internet 上实时传输相关的所有特征和信息的大量信息而灰心。
+另一方面，对于那些不了解 Web 编程领域（客户端和服务器端）最新发展的用户，将传统 VoIP 应用程序移动到浏览器可能会感到不舒服。</p> <p>本书的目的是通过在最先进的实时通信协议之上为开发人员提供 WebRTC API 的示例学习描述，从而为这两个社区提供便利。
+它的目标读者是异类读者，不仅是 Web 程序员，还包括对 Internet 协议和通信范例的内部运作有一定了解的实时应用程序架构师。
+不同的读者可以在不同的位置进入本书。 他们将获得一些理论上的解释和方便的量身定制的练习集，他们可以对其进行适当的修改并将其应用于自己的项目。</p> <p>首先，我们将以高度抽象的方式描述与 WebRTC 相关的整个开发周期。
+然后，我们将与读者携手并进，构建一个完整的 WebRTC 应用程序。
+我们将首先忽略所有与旨在进行通信的浏览器对之间的信令通道的构建有关的所有网络方面。</p> <p>在第一个阶段，我们将说明如何编写代码以查询（并获得对）本地多媒体资源（如音频和视频设备）的访问，并在 HTML5 浏览器窗口中显示它们。
+然后，我们将讨论如何将获得的媒体流与 <code>PeerConnection</code> 对象相关联，该对象表示与远程对等方的逻辑连接的抽象。
+在这些第一步中，将不会实例化与远程对等方的实际通信通道。所有代码示例都将在单个节点上运行，并且只会帮助程序员熟悉 WebRTC API。</p> <p>完成此阶段后，我们将简要讨论与建立正确的信令通道有关的各种选择，该通道允许两个对等方之间相互交换（和协商）有关实时多媒体会话的信息。
+对于第二阶段，我们不可避免地需要看一下服务器端。有目的地使运行中的示例尽可能简单。它基本上将代表只针对WebRTC API的简单代码段，并保留与最终应用程序的外观相关的所有样式方面。</p> <p>我们相信，读者将从书中提供的示例代码开始快速学习如何开发自己的用例。</p> <h2 id="章节简介"><a href="#章节简介" class="header-anchor">#</a> 章节简介</h2> <h4 id="第1章-简介"><a href="#第1章-简介" class="header-anchor">#</a> 第1章 简介</h4> <p>涵盖了 VoIP（IP 语音）从独立功能转变为浏览器组件的原因。 它介绍了 WebRTC 中使用的现有 HTML5 功能，以及它们如何与实时通信的架构模型（即所谓的 “浏览器 RTC 梯形” ）配合。</p> <h4 id="第2章-处理浏览器中的媒体"><a href="#第2章-处理浏览器中的媒体" class="header-anchor">#</a> 第2章 处理浏览器中的媒体</h4> <p>重点介绍允许客户端 Web 应用程序（通常以 HTML5 和 JavaScript 的混合编写）通过 WebRTC API 与 Web 浏览器进行交互的机制。
+举例说明了如何查询浏览器功能，如何接收浏览器生成的通知以及如何应用浏览器 API 以便正确处理浏览器中的媒体。</p> <h4 id="第3章-构建浏览器-rtc-梯形图：本地视角"><a href="#第3章-构建浏览器-rtc-梯形图：本地视角" class="header-anchor">#</a> 第3章 构建浏览器 RTC 梯形图：本地视角</h4> <p>引入了 <code>RTCPeerConnection</code> API，其主要目的是通过为双向多媒体通信通道提供一个抽象来在浏览器对等之间来回传输流数据。</p> <h4 id="第4章-需要信令通道"><a href="#第4章-需要信令通道" class="header-anchor">#</a> 第4章 需要信令通道</h4> <p>重点在启用 WebRTC 的点对点之间创建额外点信令通道。
+这样的信道在会话建立时证明是基本的，以便允许交换会话描述和网络可达性信息。</p> <h4 id="第5章-放在一起：拼凑出你的第一个-webrtc-系统"><a href="#第5章-放在一起：拼凑出你的第一个-webrtc-系统" class="header-anchor">#</a> 第5章 放在一起：拼凑出你的第一个 WebRTC 系统</h4> <p>通过提供一个完整的示例来结束 WebRTC 导览。
+读者将学习如何使用前面各章中介绍的 API 功能从头开始创建基本而完整的 Web 实时通信系统。</p> <h4 id="第6章-webrtc-api-的高级功能简介"><a href="#第6章-webrtc-api-的高级功能简介" class="header-anchor">#</a> 第6章 WebRTC API 的高级功能简介</h4> <p>探索 WebRTC API 的高级方面并考虑未来。</p> <h2 id="本书中使用的约定"><a href="#本书中使用的约定" class="header-anchor">#</a> 本书中使用的约定</h2> <p>本书使用以下约定：</p> <h4 id="斜体"><a href="#斜体" class="header-anchor">#</a> <em>斜体</em></h4> <p>指示新的术语，URL，电子邮件地址，文件名和文件扩展名。</p> <h4 id="等宽字体"><a href="#等宽字体" class="header-anchor">#</a> 等宽字体</h4> <p>用于程序清单，以及在段落中用于引用程序元素，例如变量或函数名称，数据库，数据类型，环境变量，语句和关键字。</p> <p><strong>等宽粗体</strong></p> <p>显示应由用户直接输入的命令或其他文本。</p> <h4 id="等宽斜体"><a href="#等宽斜体" class="header-anchor">#</a> <em>等宽斜体</em></h4> <p>显示应由用户提供的值或由上下文确定的值替换的文本。</p> <p>注：原版书使用了。不过本翻译并没有使用</p> <div class="custom-block tip"><p class="custom-block-title">建议</p> <p>该元素表示提示或建议。</p></div> <div class="custom-block warning"><p class="custom-block-title">注意</p> <p>此元素表示一般注释。</p></div> <div class="custom-block danger"><p class="custom-block-title">警告</p> <p>此元素表示警告或注意。</p></div> <h2 id="使用代码示例"><a href="#使用代码示例" class="header-anchor">#</a> 使用代码示例</h2> <p>代码在 <a href="https://github.com/spromano/WebRTC_Book" target="_blank" rel="noopener noreferrer">https://github.com/spromano/WebRTC_Book<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></p></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/webrtc-book-cn/" class="prev router-link-active">
+        关于
+      </a></span> <span class="next"><a href="/webrtc-book-cn/01_introduction.html">
+        第1章 简介
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/webrtc-book-cn/assets/js/app.d61fefb3.js" defer></script><script src="/webrtc-book-cn/assets/js/2.68e3a1af.js" defer></script><script src="/webrtc-book-cn/assets/js/15.47d07794.js" defer></script>
+  </body>
+</html>
