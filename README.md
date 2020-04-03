@@ -1,7 +1,9 @@
 # webrtc-book-cn
 中文翻译 Real-Time Communication with WebRTC
 
-https://www.oreilly.com/library/view/real-time-communication-with/9781449371869/
+![cover](https://www.oreilly.com/library/cover/9781449371869/1024w/)
+
+[原版地址](https://www.oreilly.com/library/view/real-time-communication-with/9781449371869/)
 
 ## 内容简介
 
@@ -9,7 +11,11 @@ https://www.oreilly.com/library/view/real-time-communication-with/9781449371869/
 
 作者通过实例学习的方法非常适合那些希望理解实时通信的 web 程序员，以及不熟悉 HTML5 和基于 javascript 的客户端-服务器 web 编程的电信架构师。
 
-## 术语表
+## 翻译约定
+
+本译者认为：本书并没有翻译到理想状态
+
+#### **deadline 并不是什么第一生成力，只是给了你一个把一坨翔提交上去的勇气**
 
 翻译术语的时候请参考这个对照表：
 
