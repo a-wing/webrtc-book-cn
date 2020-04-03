@@ -1,8 +1,15 @@
 module.exports = {
   title: 'WebRTC 实时通信',
   description: '中文版 《 Real-Time Communication with WebRTC 》',
+  base: '/webrtc-book-cn/',
   themeConfig: {
+    nav: [
+      { text: 'Home', link: '/' },
+      { text: 'Telegram', link: 'https://t.me/webrtc_cn' },
+      { text: 'Github', link: 'https://github.com/a-wing/webrtc-book-cn/' },
+    ],
     sidebar: [
+      { title: '关于', path: '/' },
       { title: '前言', path: 'preface' },
       {
         title: '目录',
