@@ -40,12 +40,15 @@ WebRTC web 应用程序(通常以 HTML 和 JavaScript 的混合形式编写) 通
 
 因此，WebRTC API 必须提供广泛的功能集，例如连接管理（以对等方式），编码/解码功能协商，选择和控制，媒体控制，防火墙和 NAT 元素遍历等。
 
+* * *
+
 > #### 网络地址转换(NAT)
 >
 > 网络地址转换器(NAT) (RFC1631)已经标准化，以缓解 IPv4 地址的稀缺和耗尽。
 >
 > 私有本地网络边缘的 NAT 设备负责维护私有本地 IP 和端口元组到一个或多个全局惟一的公共 IP 和端口元组的表映射。这使得 NAT 背后的本地 IP 地址可以在许多不同的网络中重用，从而解决了 IPv4 地址耗尽的问题。
->
+
+* * *
 
 ![图1-3](./images/rcwr_0103.png)
 
@@ -73,15 +76,29 @@ JSEP 方法将驱动信令状态机的职责完全委托给应用程序：应用
 
 
 ## WebRTC API
-W3C WebRTC 1.0 API 允许 JavaScript 应用程序利用新型浏览器的实时功能。 在浏览器核心中实现的实时浏览器功能（请参见 图1-3）提供了建立必要的音频，视频和数据通道所需的功能。 所有媒体和数据流都使用 DTLS 加密。[1]
+W3C WebRTC 1.0 API 允许 JavaScript 应用程序利用新型浏览器的实时功能。 在浏览器核心中实现的实时浏览器功能（请参见 图1-3）提供了建立必要的音频，视频和数据通道所需的功能。 所有媒体和数据流都使用 DTLS 加密。
 
-> ### Datagram Transport Layer Security (DTLS)
+::: details DTLS 加密
+
+DTLS 实际上用于密钥派生，而 SRTP 用于线路。 因此，线路上的数据包不是 DTLS（初始握手除外）。
+
+:::
+
+* * *
+
+> #### Datagram Transport Layer Security (DTLS)
 >
 > DTLS（数据报传输层安全性）协议（[RFC6347](https://tools.ietf.org/html/rfc6347)）旨在防止对用户数据报协议（UDP）提供的数据传输进行窃听，篡改或消息伪造。 DTLS 协议基于面向流的传输层安全性（TLS）协议，旨在提供类似的安全性保证。
 >
 
-> ### **注意**
-> 在两个 WebRTC 客户端之间执行的 DTLS 握手依赖于自签名证书。 结果，证书本身无法用于对等方进行身份验证，因为没有明确的信任链可进行验证。
+* * *
+
+::: warning 注意
+
+在两个 WebRTC 客户端之间执行的 DTLS 握手依赖于自签名证书。
+但是，证书本身无法用于对等方进行身份验证，因为没有明确的信任链可进行验证。
+
+:::
 
 为了确保不同的实时浏览器功能实现之间的互操作性达到基线水平，IETF 正在努力选择支持音频和视频编解码器的最低强制要求集。 已选择 Opus（[RFC6716](https://tools.ietf.org/html/rfc6716)）和 G.711 作为实施音频编解码器的必需项。 但是，在撰写本文时，IETF 尚未就强制实施视频编解码器达成共识。
 
@@ -105,12 +122,16 @@ W3C WebRTC 1.0 API 允许 JavaScript 应用程序利用新型浏览器的实时�
 
 `PeerConnection` 允许两个用户在浏览器之间直接通信。然后，它表示与远程对等点的关联，远程对等点通常是在远程端运行的同一JavaScript应用程序的另一个实例。通信通过一个信令通道进行协调，信令通道是通过web服务器中的页面脚本代码提供的，例如使用 `XMLHttpRequest` 或 `WebSocket`。一旦建立了对等连接，就可以将媒体流(与临时定义的 `MediaStream` 对象在本地关联)直接发送到远程浏览器。
 
-> ### STUN and TURN
+* * *
+
+> #### STUN and TURN
 >
 > NAT会话遍历实用程序（STUN）协议（[RFC5389](https://tools.ietf.org/html/rfc5389)）允许主机应用程序发现网络上网络地址转换器的存在，并且在这种情况下，可以为当前连接获取分配的公共IP和端口元组。 为此，该协议需要已配置的第三方STUN服务器的协助，该服务器必须位于公共网络上。
 >
 > 围绕NAT的遍历使用中继（TURN）协议（[RFC5766](https://tools.ietf.org/html/rfc5766)）允许NAT后面的主机从驻留在公用Internet上的中继服务器获取公用IP地址和端口。 由于中继了传输地址，主机可以从任何可以将数据包发送到公共Internet的对等方接收媒体。
 >
+
+* * *
 
 `PeerConnection` 机制将ICE协议（请参阅[ICE Candidate Exchanging]()）与 STUN 和 TURN 服务器一起使用，以使基于UDP的媒体流穿越NAT盒和防火墙。 ICE允许浏览器发现有关部署它们的网络拓扑的足够信息，以找到最佳的可利用通信路径。 使用ICE还提供了一种安全措施，因为它可以防止不受信任的网页和应用程序将数据发送到不希望接收它们的主机。
 
@@ -126,7 +147,7 @@ IETF内的标准化工作已就使用封装在DTLS中的流控制传输协议（
 
 当在实例化的 `PeerConnection` 对象上首次调用 `CreateDataChannel()` 函数时，将执行 `DataChannel` 设置（即创建 SCTP 关联）。随后每次对 `CreateDataChannel()` 函数的调用都只会在现有SCTP关联内创建一个新的 `DataChannel`。
 
-## A Simple Example
+## 一个简单的例子
 
 Alice 和 Bob 都是共同呼叫服务的用户。为了进行通信，必须将它们同时连接到实现呼叫服务的 Web 服务器。的确，当他们将浏览器指向呼叫服务网页时，他们将下载包含 JavaScript 的 HTML 页面，该 JavaScript 使浏览器通过安全的 HTTP 或 WebSocket 连接保持与服务器的连接。
 
@@ -143,6 +164,4 @@ Bob 浏览器上的 JavaScript 处理传入的消息并提醒 Bob。 如果 Bob 
 ![图1-5](./images/rcwr_0105.png)
 
 图1-5 从 Alice 的角度来看通话设置
-
-[1] DTLS 实际上用于密钥派生，而 SRTP 用于线路。 因此，线路上的数据包不是 DTLS（初始握手除外）。
 
