@@ -47,31 +47,31 @@
 
 * * *
 
-# `socket.io` JavaScript库
-
-`socket.io` 是一个用于实时 Web 应用程序的 JavaScript 库。 它包括两个部分：在浏览器中运行的客户端库和用于 `Node.js` 的服务器端库（请参见第70页的“ Node.js 软件平台”）。
-
-`socket.io` 的客户端部分是一个事件驱动的库，主要使用 WebSocket 协议，但是如果需要，可以使用其他多种方法，例如 Adobe Flash 套接字， AJAX 长轮询等，同时提供相同的方法和接口。 它提供了许多高级功能，例如将多个套接字与服务器端 room 关联，广播到多个套接字，存储与特定客户端关联的数据以及管理异步 I/O 。
-
-可以使用 node packaged modules（npm）工具轻松地安装 `socket.io`：
-
-```shell
-npm install socket.io
-```
-
-安装后，将 `socket.io.js` 文件复制到Web服务器可以在其中找到的文件夹中。
-
-该演示应用程序还需要 `node-static` 模块，该模块也需要安装：
-
-```shell
-npm install node-static
-```
+> #### `socket.io` JavaScript库
+>
+> `socket.io` 是一个用于实时 Web 应用程序的 JavaScript 库。 它包括两个部分：在浏览器中运行的客户端库和用于 `Node.js` 的服务器端库（请参见第70页的“ Node.js 软件平台”）。
+>
+> `socket.io` 的客户端部分是一个事件驱动的库，主要使用 WebSocket 协议，但是如果需要，可以使用其他多种方法，例如 Adobe Flash 套接字， AJAX 长轮询等，同时提供相同的方法和接口。 它提供了许多高级功能，例如将多个套接字与服务器端 room 关联，广播到多个套接字，存储与特定客户端关联的数据以及管理异步 I/O 。
+>
+> 可以使用 node packaged modules（npm）工具轻松地安装 `socket.io`：
+>
+> ```shell
+> npm install socket.io
+> ```
+>
+> 安装后，将 `socket.io.js` 文件复制到Web服务器可以在其中找到的文件夹中。
+>
+> 该演示应用程序还需要 `node-static` 模块，该模块也需要安装：
+>
+> ```shell
+> npm install node-static
+> ```
 
 * * *
 
 后面的文件（`simpleNodeClient.js`）显示如下：
 
-[由于这段代码太长，单独放到一个文件里了](js/simpleNodeClient.js)
+<<< @/js/simpleNodeClient.js
 
 该代码执行以下操作：
 1. 允许客户端连接到服务器（通过 `socket.io` 库）
@@ -83,11 +83,11 @@ npm install node-static
 
 * * *
 
-# Node.js 软件平台
-
-`Node.js` 是一个功能非常强大的软件平台，允许用户使用 JavaScript 轻松构建可伸缩的服务器端应用程序。 它基于利用非阻塞 I/O 的单线程事件循环管理过程。
-
-该库提供了内置的 HTTP 服务器实现，可以独立于第三方软件组件。 使用 Node.js，程序员只需几行代码就可以轻松实现具有自定义行为的高性能 HTTP 服务器。
+> #### Node.js 软件平台
+>
+> `Node.js` 是一个功能非常强大的软件平台，允许用户使用 JavaScript 轻松构建可伸缩的服务器端应用程序。 它基于利用非阻塞 I/O 的单线程事件循环管理过程。
+>
+> 该库提供了内置的 HTTP 服务器实现，可以独立于第三方软件组件。 使用 Node.js，程序员只需几行代码就可以轻松实现具有自定义行为的高性能 HTTP 服务器。
 
 * * *
 

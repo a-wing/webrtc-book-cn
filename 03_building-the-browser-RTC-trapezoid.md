@@ -211,16 +211,16 @@ localPeerConnection.onicecandidate = gotLocalIceCandidate;
 
 * * *
 
-# `RTCPeerConnection`
+#### `RTCPeerConnection`
 
-调用 `new RTCPeerConnection(configuration)` 将创建一个 `RTCPeerConnection` 对象。 该配置具有查找和访问 STUN 和 TURN 服务器的信息（每种类型可以有多个服务器，任何 TURN 服务器也可以用作 STUN 服务器）。 （可选）还可以使用第19页的 `MediaConstraints` 对象“Media Constraints”。
-
-调用 `RTCPeerConnection` 构造函数时，它还会创建一个 ICE 代理，该 ICE 代理由浏览器直接控制负责 ICE 状态机。 当 `IceTransports` 约束未设置为 “none” 时，ICE 代理将继续收集候选地址。
-
-`RTCPeerConnection` 对象具有两个关联的流集。 表示当前正在发送的流的本地流集（`local streams set`）和表示通过此 `RTCPeerConnection` 对象当前接收的流的远程流集（`remote streams set`）。 创建 `RTCPeerConnection` 对象时，流集将初始化为空集。
-
-
-这里要注意的有趣事情是，通过定义适当的回调方法，新创建的 `PeerConnection` 的配置是异步完成的。
+> 调用 `new RTCPeerConnection(configuration)` 将创建一个 `RTCPeerConnection` 对象。 该配置具有查找和访问 STUN 和 TURN 服务器的信息（每种类型可以有多个服务器，任何 TURN 服务器也可以用作 STUN 服务器）。 （可选）还可以使用第19页的 `MediaConstraints` 对象“Media Constraints”。
+>
+> 调用 `RTCPeerConnection` 构造函数时，它还会创建一个 ICE 代理，该 ICE 代理由浏览器直接控制负责 ICE 状态机。 当 `IceTransports` 约束未设置为 “none” 时，ICE 代理将继续收集候选地址。
+>
+> `RTCPeerConnection` 对象具有两个关联的流集。 表示当前正在发送的流的本地流集（`local streams set`）和表示通过此 `RTCPeerConnection` 对象当前接收的流的远程流集（`remote streams set`）。 创建 `RTCPeerConnection` 对象时，流集将初始化为空集。
+>
+>
+> 这里要注意的有趣事情是，通过定义适当的回调方法，新创建的 `PeerConnection` 的配置是异步完成的。
 
 * * *
 
@@ -535,13 +535,13 @@ WebRTC API 没有使用 `DataChannel` API 定义约束的使用。 相反，它�
 
 * * *
 
-# createDataChannel
-
-`createDataChannel()` 方法使用给定标签创建一个新的 `RTCDataChannel` 对象。 `RTCDataChannel` 初始化字典（表3-1）可用于配置基础通道的属性，例如数据可靠性。
-
-`RTCDataChannel` 接口表示两个对等点之间的双向数据通道。 每个数据通道都有一个关联的基础数据传输，用于将数据传输到另一个对等方。 创建通道后，对等方将配置基础数据传输的属性（表3-1）。 创建通道后，通道的属性无法更改。 对等方之间的实际 有线 (wire) 协议为 SCTP （请参见第8页的“数据通道”）。
-
-可以将 `RTCDataChannel` 配置为在不同的可靠性模式下运行。 可靠的通道可确保通过重传将数据传递到另一个对等方。 不可靠的通道配置为限制重传次数 (`maxRetransmits`) 或设置允许重传的时间 (`maxRetransmitTime`)。 这些属性不能同时使用，尝试这样做会导致错误。 不设置任何这些属性会导致创建可靠的通道。
+> #### createDataChannel
+>
+> `createDataChannel()` 方法使用给定标签创建一个新的 `RTCDataChannel` 对象。 `RTCDataChannel` 初始化字典（表3-1）可用于配置基础通道的属性，例如数据可靠性。
+>
+> `RTCDataChannel` 接口表示两个对等点之间的双向数据通道。 每个数据通道都有一个关联的基础数据传输，用于将数据传输到另一个对等方。 创建通道后，对等方将配置基础数据传输的属性（表3-1）。 创建通道后，通道的属性无法更改。 对等方之间的实际 有线 (wire) 协议为 SCTP （请参见第8页的“数据通道”）。
+>
+> 可以将 `RTCDataChannel` 配置为在不同的可靠性模式下运行。 可靠的通道可确保通过重传将数据传递到另一个对等方。 不可靠的通道配置为限制重传次数 (`maxRetransmits`) 或设置允许重传的时间 (`maxRetransmitTime`)。 这些属性不能同时使用，尝试这样做会导致错误。 不设置任何这些属性会导致创建可靠的通道。
 
 * * *
 

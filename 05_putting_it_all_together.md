@@ -101,7 +101,7 @@ HTML 代码在 例5-1 中。
 
 例5-2 `completeNodeClientWithDataChannel.js`
 
-[由于这段代码太长，单独放到一个文件里了](js/completeNodeClientWithDataChannel.js)
+<<< @/js/completeNodeClientWithDataChannel.js
 
 根据 第4章 中包含的信息，读者在理解信令服务器的行为时应该不会遇到任何问题，信令服务器已作为 Node.js 应用程序编写，其代码复制如下：
 
@@ -550,18 +550,18 @@ socket.on('message', function (message) {
 
 * * *
 
-# Trickle ICE
-
-Trickle ICE 是ICE协议的拟议扩展，在其中，无需等待 ICE 收集过程完成，就可以向其他对等方发送增量更新。 这有助于加快整个设置阶段。
-
-Trickle ICE机制涉及以下步骤：
-* 双方交换没有 ICE 候选人的 SDP offer
-* 一旦发现 ICE 候选者，便通过信令信道发送它们。
-* 只要有新的候选者描述，便会运行ICE连接检查。
+> #### ICE 流 (Trickle ICE)
+>
+> ICE 流是 ICE 协议的推荐扩展，在此协议中，无需等待 ICE 收集过程完成，就可以向其他对等方发送增量更新。 这有助于加快整个设置阶段。
+>
+> ICE 流 机制涉及以下步骤：
+> - 双方交换没有 ICE 候选人的 SDP offer
+> - 一旦发现 ICE 候选者，便通过信令信道发送它们。
+> - 只要有新的候选者描述，便会运行 ICE 连接检查。
 
 * * *
 
-## Joiner’s Answer
+## Joiner 的 `answer`
 
 既然我们已经完成了 ICE 候选人交换，那么让我们重新思考一下。
 我们当时（第115页上的“ Joiner 管理 Initiator 的 Offer ”）是 Joiner 通过创建自己的 `PeerConnection` 对象来处理 Initiator 的 Offer 的时候。
