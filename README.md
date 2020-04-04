@@ -31,3 +31,43 @@
 | callee | 被叫方 |
 | channel| 通道   |
 
+
+## 版权许可
+
+分成三个部分：代码，图片资源，翻译后的文本
+
+### 代码
+
+原书代码部分的授权
+> This book is here to help you get your job done. In general, if example code is offered with this book, you may use it in your programs and documentation.
+> You do not need to contact us for permission unless you’re reproducing a significant portion of the code.
+> For example, writing a program that uses several chunks of code from this book does not require permission.
+> Selling or distributing a CD-ROM of examples from O’Reilly books does require permission.
+> Answering a question by citing this book and quoting example code does not require permission.
+> Incorporating a significant amount of example code from this book into your product’s documentation does require permission.
+
+大概意思是：
+
+提供了示例代码，则可以在程序和文档中使用它。
+复制大量代码，需要与我们联系以获取许可。
+例如，编写使用本书中若干代码块的程序无需许可。
+出售或分发 O'Reilly books 的示例 CD-ROM 确实需要获得许可。
+通过引用本书和引用示例代码来回答问题不需要许可。
+将本书中的大量示例代码合并到产品文档中确实需要获得许可。
+
+
+### 图片资源
+
+原书并没有给出图片的资源的任何许可
+
+图片授权请联系原版权持有者，原作者或出版社
+
+
+### 翻译后的文本
+
+采用 “[保持署名—非商用](https://creativecommons.org/licenses/by-nc/4.0/)” 创意共享 4.0 许可证。
+
+只要保持原作者署名和非商用，您可以自由地阅读、分享、修改本书。
+
+![by-nc](https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-nc.svg)
+
