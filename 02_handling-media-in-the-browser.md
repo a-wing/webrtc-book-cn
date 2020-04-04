@@ -157,11 +157,7 @@ navigator.getUserMedia(constraints, successCallback, errorCallback);
 
 注意：权限授予与网页的域相关，并且此权限不会扩展到网页上的弹出窗口和其他框架。
 
-![图2-4](images/rcwr_0204.png)
-
 图2-4 在 Chrome 中显示获取的 `MediaStream`
-
-![图2-5](images/rcwr_0205.png)
 
 图2-5 在 Firefox 中显示获取的 `MediaStream`
 
@@ -238,7 +234,7 @@ navigator.getUserMedia(constraints, successCallback, errorCallback);
 ```
 从 例2-3 中的代码片段和 图2-7 中的快照都可以看到，该页面包含三个按钮，每个按钮与以特定分辨率（从低分辨率到高清视频）表示的本地视频流相关联
 
-![图2-7](images/rcwr_0207.png)
+![图2-7](./images/rcwr_0207.png)
 
 图2-7 一个简单的 HTML 页面，显示 Chrome 中约束的使用
 
@@ -336,11 +332,7 @@ function getMedia(constraints) {
 ```
 例2-4 中的代码非常简单。 核心部分与约束对象的正确定义有关，每个约束对象都可以作为输入参数传递给 `getUserMedia()` 函数。 其中包含的三个样本对象只是简单地指出，视频应视为强制性的，并根据视频的宽度和高度的下限进一步指定分辨率。 为了使读者了解其含义，图2-8 和 图2-9 分别显示了320×240 和 640×480 的分辨率流。
 
-![图2-8](images/rcwr_0208.png)
-
 图2-8 在 Chrome 中显示 320×240 分辨率的视频
-
-![图2-9](images/rcwr_0209.png)
 
 图2-9 在 Chrome 中显示 640×480 分辨率的视频
 
