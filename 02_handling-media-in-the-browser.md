@@ -118,7 +118,11 @@ function successCallback(stream) {
 
   if (window.URL) {
     // Chrome case: URL.createObjectURL() converts a MediaStream to a blob URL
-    video.src = window.URL.createObjectURL(stream);
+
+    // Reference: https://github.com/a-wing/webrtc-book-cn/issues/1
+    // video.src = window.URL.createObjectURL(stream);
+
+    video.srcObject = stream;
   } else {
     // Firefox and Opera: the src of the video can be set directly from the stream
     video.src = stream;
@@ -171,6 +175,24 @@ navigator.getUserMedia(constraints, successCallback, errorCallback);
 图2-6 在 Chrome 的控制台中检查 `MediaStream`
 
 关于返回的流如何附加到 `<video>` 元素，请注意，Chrome 要求转换为所谓的 Blob URL（`video.src = window.URL.createObjectURL(stream);`），而其他启用 WebRTC 的浏览器允许您按原样使用它（`video.src = stream;`）。
+
+::: tip 译者 注
+
+[Chrome 71 移除了 `MediaStream` 的 `URL.createObjectURL`](https://developers.google.com/web/updates/2018/10/chrome-71-deps-rems#remove_urlcreateobjecturl_from_mediastream)
+
+```javascript
+video.src = window.URL.createObjectURL(stream);
+```
+
+应该改成这种写法：
+
+```javascript
+video.srcObject = stream;
+```
+
+[感谢 b1ngx 的指出](https://github.com/a-wing/webrtc-book-cn/issues/1)
+
+:::
 
 * `failure callback` 如果被调用，则传递给错误对象。 在我们的基本示例中，提到的回调仅将返回的错误记录到控制台（`console.log("navigator.getUserMedia error: ", error);`）
 
