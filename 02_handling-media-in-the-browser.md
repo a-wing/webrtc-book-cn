@@ -266,7 +266,7 @@ video.srcObject = stream;
 ```javascript
 // Define local variables associated with video resolution selection
 // buttons in the HTML page
-var vga Button = document.querySelector("button#vga");
+var vgaButton = document.querySelector("button#vga");
 var qvgaButton = document.querySelector("button#qvga");
 var hdButton = document.querySelector("button#hd");
 
