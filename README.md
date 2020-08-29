@@ -39,6 +39,7 @@
 ### 代码
 
 原书代码部分的授权
+
 > This book is here to help you get your job done. In general, if example code is offered with this book, you may use it in your programs and documentation.
 > You do not need to contact us for permission unless you’re reproducing a significant portion of the code.
 > For example, writing a program that uses several chunks of code from this book does not require permission.
@@ -46,15 +47,12 @@
 > Answering a question by citing this book and quoting example code does not require permission.
 > Incorporating a significant amount of example code from this book into your product’s documentation does require permission.
 
-大概意思是：
-
-提供了示例代码，则可以在程序和文档中使用它。
-复制大量代码，需要与我们联系以获取许可。
-例如，编写使用本书中若干代码块的程序无需许可。
-出售或分发 O'Reilly books 的示例 CD-ROM 确实需要获得许可。
-通过引用本书和引用示例代码来回答问题不需要许可。
-将本书中的大量示例代码合并到产品文档中确实需要获得许可。
-
+本书是为了帮助你完成你的工作。一般的，本书提供的示例代码可被用于你的程序和文档。
+如果你需要复制一大部分代码，则需要联系我们获取许可。
+如果在程序中使用本书中的若干代码无需许可。
+出售或分发 O'Reilly books 的示例 CD-ROM 需要获取许可。
+通过引用本书和引用示例代码来回答问题不需要获取许可。
+将本书中的大量示例代码纳入到你的产品文档中需要获得许可。
 
 ### 图片资源
 
