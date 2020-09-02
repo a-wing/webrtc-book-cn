@@ -44,46 +44,51 @@ function createConnection() {
   // configuration of an RTCPeerConnection object:
   // use DTLS/SRTP
   var pc_constraints = {
-    'optional': [{
-      'DtlsSrtpKeyAgreement': true}]};
-
-      // Create the local PeerConnection object...
-      // ...with data channelslocalPeerConnection = new RTCPeerConnection(servers,pc_constraints);
-      log("Created local peer connection object, with Data Channel");
-      try {
-
-        // Note: SCTP-based reliable DataChannels supported
-        // in Chrome 29+ !
-        // use {reliable: false} if you have an older version of Chrome
-        sendChannel = localPeerConnection.createDataChannel( "sendDataChannel",{reliable: true});
-        log('Created reliable send data channel');
-      } catch (e) {
-        alert('Failed to create data channel!');
-        log('createDataChannel() failed with following message: ' + e.message);
+    'optional': [
+      {
+        'DtlsSrtpKeyAgreement': true
       }
-      // Associate handlers with peer connection ICE events
-      localPeerConnection.onicecandidate = gotLocalCandidate;
+    ]
+  };
 
-      // Associate handlers with data channel events
-      sendChannel.onopen = handleSendChannelStateChange;
-      sendChannel.onclose = handleSendChannelStateChange;
+  // Create the local PeerConnection object...
+  // ...with data channels
+  localPeerConnection = new RTCPeerConnection(servers, pc_constraints);
+  log("Created local peer connection object, with Data Channel");
+  try {
 
-      // Mimic a remote peer connection
-      window.remotePeerConnection = new RTCPeerConnection(servers, pc_constraints);
-      log('Created remote peer connection object, with DataChannel');
+    // Note: SCTP-based reliable DataChannels supported
+    // in Chrome 29+ !
+    // use {reliable: false} if you have an older version of Chrome
+    sendChannel = localPeerConnection.createDataChannel("sendDataChannel", {reliable: true});
+    log('Created reliable send data channel');
+  } catch (e) {
+    alert('Failed to create data channel!');
+    log('createDataChannel() failed with following message: ' + e.message);
+  }
+  // Associate handlers with peer connection ICE events
+  localPeerConnection.onicecandidate = gotLocalCandidate;
 
-      // Associate handlers with peer connection ICE events...
-      remotePeerConnection.onicecandidate = gotRemoteIceCandidate;
+  // Associate handlers with data channel events
+  sendChannel.onopen = handleSendChannelStateChange;
+  sendChannel.onclose = handleSendChannelStateChange;
 
-      // ...and data channel creation event
-      remotePeerConnection.ondatachannel = gotReceiveChannel;
+  // Mimic a remote peer connection
+  window.remotePeerConnection = new RTCPeerConnection(servers, pc_constraints);
+  log('Created remote peer connection object, with DataChannel');
 
-      // We're all set! Let's start negotiating a session...
-      localPeerConnection.createOffer(gotLocalDescription,onSignalingError);
+  // Associate handlers with peer connection ICE events...
+  remotePeerConnection.onicecandidate = gotRemoteIceCandidate;
 
-      // Disable Start button and enable Close button
-      startButton.disabled = true;
-      closeButton.disabled = false;
+  // ...and data channel creation event
+  remotePeerConnection.ondatachannel = gotReceiveChannel;
+
+  // We're all set! Let's start negotiating a session...
+  localPeerConnection.createOffer(gotLocalDescription, onSignalingError);
+
+  // Disable Start button and enable Close button
+  startButton.disabled = true;
+  closeButton.disabled = false;
 }
 
 function onSignalingError(error) {
@@ -139,7 +144,7 @@ function gotLocalDescription(desc) {
   remotePeerConnection.setRemoteDescription(desc);
 
   // Create answer from the remote party, based on the local SDP
-  remotePeerConnection.createAnswer(gotRemoteDescription,onSignalingError);
+  remotePeerConnection.createAnswer(gotRemoteDescription, onSignalingError);
 }
 
 // Handler to be called as soon as the remote SDP is made available to
