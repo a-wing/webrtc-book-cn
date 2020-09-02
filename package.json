@@ -8,6 +8,6 @@
   },
   "author": "metal A-wing 1@233.email",
   "dependencies": {
-    "vuepress": "^1.4.0"
+    "vuepress": "^1.5.4"
   }
 }
