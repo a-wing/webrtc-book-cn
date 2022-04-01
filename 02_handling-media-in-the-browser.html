@@ -7,7 +7,7 @@
     <meta name="generator" content="VuePress 1.5.4">
     
     <meta name="description" content="中文版 《 Real-Time Communication with WebRTC 》">
-    <link rel="preload" href="/webrtc-book-cn/assets/css/0.styles.80f6cb28.css" as="style"><link rel="preload" href="/webrtc-book-cn/assets/js/app.4431acb3.js" as="script"><link rel="preload" href="/webrtc-book-cn/assets/js/2.f12a4af1.js" as="script"><link rel="preload" href="/webrtc-book-cn/assets/js/7.50edc76f.js" as="script"><link rel="prefetch" href="/webrtc-book-cn/assets/js/10.52500e1d.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/11.d77e547d.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/12.a1eda00e.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/13.dde175cd.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/14.08247bd0.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/15.10fb4035.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/3.87ec8dd3.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/4.d764a0db.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/5.73bf27b5.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/6.c2d6bf34.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/8.0d032992.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/9.57ae7319.js">
+    <link rel="preload" href="/webrtc-book-cn/assets/css/0.styles.80f6cb28.css" as="style"><link rel="preload" href="/webrtc-book-cn/assets/js/app.a993d1cf.js" as="script"><link rel="preload" href="/webrtc-book-cn/assets/js/2.f12a4af1.js" as="script"><link rel="preload" href="/webrtc-book-cn/assets/js/7.8f223061.js" as="script"><link rel="prefetch" href="/webrtc-book-cn/assets/js/10.52500e1d.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/11.d77e547d.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/12.a1eda00e.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/13.dde175cd.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/14.08247bd0.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/15.10fb4035.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/3.87ec8dd3.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/4.d764a0db.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/5.73bf27b5.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/6.c2d6bf34.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/8.0d032992.js"><link rel="prefetch" href="/webrtc-book-cn/assets/js/9.57ae7319.js">
     <link rel="stylesheet" href="/webrtc-book-cn/assets/css/0.styles.80f6cb28.css">
   </head>
   <body>
@@ -131,7 +131,17 @@ navigator<span class="token punctuation">.</span>getUserMedia <span class="token
 
   <span class="token comment">// Attach the returned stream to the &lt;video&gt; element</span>
   <span class="token comment">// in the HTML page</span>
-  video<span class="token punctuation">.</span>src <span class="token operator">=</span> window<span class="token punctuation">.</span><span class="token constant">URL</span><span class="token punctuation">.</span><span class="token function">createObjectURL</span><span class="token punctuation">(</span>stream<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>window<span class="token punctuation">.</span><span class="token constant">URL</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// Chrome case: URL.createObjectURL() converts a MediaStream to a blob URL</span>
+
+    <span class="token comment">// Reference: https://github.com/a-wing/webrtc-book-cn/issues/1</span>
+    <span class="token comment">// video.src = window.URL.createObjectURL(stream);</span>
+
+    video<span class="token punctuation">.</span>srcObject <span class="token operator">=</span> stream<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    <span class="token comment">// Firefox and Opera: the src of the video can be set directly from the stream</span>
+    video<span class="token punctuation">.</span>src <span class="token operator">=</span> stream<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
 
   <span class="token comment">// Start playing video</span>
   video<span class="token punctuation">.</span><span class="token function">play</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -190,7 +200,7 @@ hdButton<span class="token punctuation">.</span><span class="token function-vari
 <span class="token keyword">function</span> <span class="token function">getMedia</span><span class="token punctuation">(</span><span class="token parameter">constraints</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token operator">!</span>stream<span class="token punctuation">)</span> <span class="token punctuation">{</span>
     video<span class="token punctuation">.</span>src <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
-    stream<span class="token punctuation">.</span><span class="token function">stop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    stream<span class="token punctuation">.</span><span class="token function">getTracks</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">track</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> track<span class="token punctuation">.</span><span class="token function">stop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
   navigator<span class="token punctuation">.</span><span class="token function">getUserMedia</span><span class="token punctuation">(</span>constraints<span class="token punctuation">,</span> successCallback<span class="token punctuation">,</span> errorCallback<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
@@ -203,6 +213,6 @@ hdButton<span class="token punctuation">.</span><span class="token function-vari
       </a>
       →
     </span></p></div> </main></div><div class="global-ui"></div></div>
-    <script src="/webrtc-book-cn/assets/js/app.4431acb3.js" defer></script><script src="/webrtc-book-cn/assets/js/2.f12a4af1.js" defer></script><script src="/webrtc-book-cn/assets/js/7.50edc76f.js" defer></script>
+    <script src="/webrtc-book-cn/assets/js/app.a993d1cf.js" defer></script><script src="/webrtc-book-cn/assets/js/2.f12a4af1.js" defer></script><script src="/webrtc-book-cn/assets/js/7.8f223061.js" defer></script>
   </body>
 </html>
