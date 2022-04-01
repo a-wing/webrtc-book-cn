@@ -17,14 +17,14 @@
 
 ## WebRTC 的 10 个步骤
 
-以下 10 个步骤的步骤描述了 WebRTC API 的典型使用场景：
+以下 10 个步骤描述了 WebRTC API 的典型使用场景：
 
 1. 从本地设备（如麦克风、网络摄像头）创建一个 `MediaStream` 对象。
 2. 从本地 `MediaStream` 获取 *URL Blob*
 3. 使用获取的 *URL Blob* 进行本地预览
 4. 创建一个 `RTCPeerConnection` 对象
 5. 将本地流添加到新创建的连接
-6. 将你自己的会话描述发送到远程对等点  Send your own session description to the remote peer.
+6. 将您自己的会话描述发送到远程对等点  Send your own session description to the remote peer.
 7. 从您的对等方接收远程会话描述  Receive the remote session description from your peer.
 8. 处理收到的会话描述，并将远程流添加到您的 `RTCPeerConnection`
 9. 从远程流获取 *URL Blob*
