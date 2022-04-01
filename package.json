@@ -7,7 +7,7 @@
     "build": "vuepress build"
   },
   "author": "metal A-wing 1@233.email",
-  "dependencies": {
-    "vuepress": "^1.5.4"
+  "devDependencies": {
+    "vuepress": "^1.9.7"
   }
 }
