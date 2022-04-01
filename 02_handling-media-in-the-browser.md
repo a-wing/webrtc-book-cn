@@ -288,7 +288,17 @@ function successCallback(gotStream) {
 
   // Attach the returned stream to the <video> element
   // in the HTML page
-  video.src = window.URL.createObjectURL(stream);
+  if (window.URL) {
+    // Chrome case: URL.createObjectURL() converts a MediaStream to a blob URL
+
+    // Reference: https://github.com/a-wing/webrtc-book-cn/issues/1
+    // video.src = window.URL.createObjectURL(stream);
+
+    video.srcObject = stream;
+  } else {
+    // Firefox and Opera: the src of the video can be set directly from the stream
+    video.src = stream;
+  }
 
   // Start playing video
   video.play();
@@ -347,7 +357,7 @@ hdButton.onclick = function() {
 function getMedia(constraints) {
   if (!!stream) {
     video.src = null;
-    stream.stop();
+    stream.getTracks().forEach(function (track) { track.stop(); });
   }
   navigator.getUserMedia(constraints, successCallback, errorCallback);
 }
