@@ -1,13 +1,14 @@
 {
-  "name": "WebRTC-book-cn",
+  "name": "webrtc-book-cn",
   "version": "1.0.0",
   "description": "Real-Time Communication with WebRTC in Chinese",
   "scripts": {
-    "dev": "vuepress dev",
-    "build": "vuepress build"
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "preview": "vitepress preview"
   },
   "author": "metal A-wing 1@233.email",
   "devDependencies": {
-    "vuepress": "^1.9.7"
+    "vitepress": "^1.0.0-alpha.36"
   }
 }
